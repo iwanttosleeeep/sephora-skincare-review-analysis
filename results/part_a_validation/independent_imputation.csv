@@ -1,0 +1,5 @@
+attribute,missing_before,values_filled,missing_after,expected_values_match,conflicting_missing_rows
+skin_tone,170379,48583,121796,True,5764
+eye_color,209458,44610,164848,True,1129
+skin_type,111403,33773,77630,True,3366
+hair_color,226597,55376,171221,True,4684

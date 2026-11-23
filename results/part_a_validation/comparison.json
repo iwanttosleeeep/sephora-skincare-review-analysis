@@ -1,0 +1,968 @@
+{
+  "protected_inputs": {
+    "Part A./merged_reviews.parquet": {
+      "bytes": 219310137,
+      "sha256": "8bb2f5ace440e2b3fbeddf4950222e61a36a67624e3d80926b4e1fab21083e2e"
+    },
+    "Part B. Data Cleaning & Feature Engineering/data/processed/analysis_ready.parquet": {
+      "bytes": 19002351,
+      "sha256": "c0ef6e2cc2f50d2267820d8da0f0c545e0761b2d7726bca27331b70cac9eea73"
+    },
+    "archive/product_info.csv": {
+      "bytes": 7912721,
+      "sha256": "d5ddb391be522e7bfcecbba93dd61129217c1381bf14a7580c0f6097ac8da063"
+    },
+    "archive/reviews_0-250.csv": {
+      "bytes": 282260770,
+      "sha256": "97c0e4beb282c8e85172dba7d7d08af454665a9c3cee95e446ae344639e27a82"
+    },
+    "archive/reviews_250-500.csv": {
+      "bytes": 100294822,
+      "sha256": "a84ce0dae70025d22d16bd8488d88223e9401a448fad42b10c8446b913c26133"
+    },
+    "archive/reviews_500-750.csv": {
+      "bytes": 56306953,
+      "sha256": "7ebed9367af4325ac3ebef6d21971932d9cb1476aa681cfc91a7fbf0e7f767d5"
+    },
+    "archive/reviews_750-1250.csv": {
+      "bytes": 57980731,
+      "sha256": "2db1f683b8512eda6894f2ebbc3cde5b899c7a680da5bae97ff4f70c0945a6ca"
+    },
+    "archive/reviews_1250-end.csv": {
+      "bytes": 24193736,
+      "sha256": "54d9ec2339dab3661ce2d58af883f8c8c29080918ce906b0bc0c83997d12cab0"
+    }
+  },
+  "downstream_sources_before": {
+    "Part B. Data Cleaning & Feature Engineering/Data_Cleaning_Feature_Engineering.ipynb": {
+      "bytes": 80713,
+      "sha256": "e167ceb6d8936690b7578769d725f5009af89fa5c8be13e86386ee486da0067e"
+    },
+    "Part C. Exploratory Data Analysis & Visualization/partc.ipynb": {
+      "bytes": 24826,
+      "sha256": "6532f4de6fc9c37c80454e0ad9cd41d8195259b55c93338b6f61a88e1f297bd5"
+    },
+    "Part E. Main Modeling & Evaluation/03_main_model_E.ipynb": {
+      "bytes": 41488,
+      "sha256": "a239012c238fbc2709f9950fc04700cc8512b3047054b0af641a7488a20ca996"
+    },
+    "Part F. Secondary Outcome and Sensitivity Analysis/Python Scripts/Secondary Outcome .py": {
+      "bytes": 8007,
+      "sha256": "4ca3f5e749209d9c6ad672211a0632e2ce7fe479a513901fecbf2d50134d3095"
+    },
+    "Part F. Secondary Outcome and Sensitivity Analysis/Python Scripts/Model Comparison.py": {
+      "bytes": 7029,
+      "sha256": "80e080cb75fb4ae7daab55ce99f2f3ae21e9a5350c4e9bf0a72eeb8951f6b8ee"
+    },
+    "Part F. Secondary Outcome and Sensitivity Analysis/Python Scripts/Sensitivity Check 1.py": {
+      "bytes": 7163,
+      "sha256": "661dacad84f16a2e12b62f112c47f4e3ece48d696c08ece33fc33046022753b6"
+    }
+  },
+  "run_dir": "data/part_a_reruns/20261123T215602+0800",
+  "raw_dir": "archive",
+  "reference_merged": "Part A./merged_reviews.parquet",
+  "part_a_exit_code": 0,
+  "protected_inputs_unchanged": true,
+  "downstream_sources_unchanged": true,
+  "rebuilt": {
+    "path": "data/part_a_reruns/20261123T215602+0800/data/processed/merged_reviews.parquet",
+    "bytes": 219310081,
+    "sha256": "a2a97b7612433f4bbf8bc630b73da10f3dd2e7b4ba9e300af5bdf3692bc2c867"
+  },
+  "reference_shape": [
+    1093970,
+    46
+  ],
+  "rebuilt_shape": [
+    1093970,
+    46
+  ],
+  "column_order_equal": true,
+  "columns": [
+    {
+      "column": "author_id",
+      "present_in_both": true,
+      "original_dtype": "string",
+      "rebuilt_dtype": "string",
+      "dtype_equal": true,
+      "original_missing": 0,
+      "rebuilt_missing": 0,
+      "different_values": 0
+    },
+    {
+      "column": "rating",
+      "present_in_both": true,
+      "original_dtype": "Int64",
+      "rebuilt_dtype": "Int64",
+      "dtype_equal": true,
+      "original_missing": 0,
+      "rebuilt_missing": 0,
+      "different_values": 0
+    },
+    {
+      "column": "is_recommended",
+      "present_in_both": true,
+      "original_dtype": "boolean",
+      "rebuilt_dtype": "boolean",
+      "dtype_equal": true,
+      "original_missing": 167822,
+      "rebuilt_missing": 167822,
+      "different_values": 0
+    },
+    {
+      "column": "helpfulness",
+      "present_in_both": true,
+      "original_dtype": "Float64",
+      "rebuilt_dtype": "Float64",
+      "dtype_equal": true,
+      "original_missing": 561438,
+      "rebuilt_missing": 561438,
+      "different_values": 0
+    },
+    {
+      "column": "total_feedback_count",
+      "present_in_both": true,
+      "original_dtype": "Int64",
+      "rebuilt_dtype": "Int64",
+      "dtype_equal": true,
+      "original_missing": 0,
+      "rebuilt_missing": 0,
+      "different_values": 0
+    },
+    {
+      "column": "total_neg_feedback_count",
+      "present_in_both": true,
+      "original_dtype": "Int64",
+      "rebuilt_dtype": "Int64",
+      "dtype_equal": true,
+      "original_missing": 0,
+      "rebuilt_missing": 0,
+      "different_values": 0
+    },
+    {
+      "column": "total_pos_feedback_count",
+      "present_in_both": true,
+      "original_dtype": "Int64",
+      "rebuilt_dtype": "Int64",
+      "dtype_equal": true,
+      "original_missing": 0,
+      "rebuilt_missing": 0,
+      "different_values": 0
+    },
+    {
+      "column": "submission_time",
+      "present_in_both": true,
+      "original_dtype": "datetime64[us]",
+      "rebuilt_dtype": "datetime64[us]",
+      "dtype_equal": true,
+      "original_missing": 0,
+      "rebuilt_missing": 0,
+      "different_values": 0
+    },
+    {
+      "column": "review_text",
+      "present_in_both": true,
+      "original_dtype": "string",
+      "rebuilt_dtype": "string",
+      "dtype_equal": true,
+      "original_missing": 1444,
+      "rebuilt_missing": 1444,
+      "different_values": 0
+    },
+    {
+      "column": "review_title",
+      "present_in_both": true,
+      "original_dtype": "string",
+      "rebuilt_dtype": "string",
+      "dtype_equal": true,
+      "original_missing": 310590,
+      "rebuilt_missing": 310590,
+      "different_values": 0
+    },
+    {
+      "column": "skin_tone",
+      "present_in_both": true,
+      "original_dtype": "string",
+      "rebuilt_dtype": "string",
+      "dtype_equal": true,
+      "original_missing": 121796,
+      "rebuilt_missing": 121796,
+      "different_values": 0
+    },
+    {
+      "column": "eye_color",
+      "present_in_both": true,
+      "original_dtype": "string",
+      "rebuilt_dtype": "string",
+      "dtype_equal": true,
+      "original_missing": 164848,
+      "rebuilt_missing": 164848,
+      "different_values": 0
+    },
+    {
+      "column": "skin_type",
+      "present_in_both": true,
+      "original_dtype": "string",
+      "rebuilt_dtype": "string",
+      "dtype_equal": true,
+      "original_missing": 77630,
+      "rebuilt_missing": 77630,
+      "different_values": 0
+    },
+    {
+      "column": "hair_color",
+      "present_in_both": true,
+      "original_dtype": "string",
+      "rebuilt_dtype": "string",
+      "dtype_equal": true,
+      "original_missing": 171221,
+      "rebuilt_missing": 171221,
+      "different_values": 0
+    },
+    {
+      "column": "product_id",
+      "present_in_both": true,
+      "original_dtype": "string",
+      "rebuilt_dtype": "string",
+      "dtype_equal": true,
+      "original_missing": 0,
+      "rebuilt_missing": 0,
+      "different_values": 0
+    },
+    {
+      "column": "product_name",
+      "present_in_both": true,
+      "original_dtype": "string",
+      "rebuilt_dtype": "string",
+      "dtype_equal": true,
+      "original_missing": 0,
+      "rebuilt_missing": 0,
+      "different_values": 0
+    },
+    {
+      "column": "brand_name",
+      "present_in_both": true,
+      "original_dtype": "string",
+      "rebuilt_dtype": "string",
+      "dtype_equal": true,
+      "original_missing": 0,
+      "rebuilt_missing": 0,
+      "different_values": 0
+    },
+    {
+      "column": "price_usd",
+      "present_in_both": true,
+      "original_dtype": "Float64",
+      "rebuilt_dtype": "Float64",
+      "dtype_equal": true,
+      "original_missing": 0,
+      "rebuilt_missing": 0,
+      "different_values": 0
+    },
+    {
+      "column": "source_file",
+      "present_in_both": true,
+      "original_dtype": "string",
+      "rebuilt_dtype": "string",
+      "dtype_equal": true,
+      "original_missing": 0,
+      "rebuilt_missing": 0,
+      "different_values": 0
+    },
+    {
+      "column": "product_product_name",
+      "present_in_both": true,
+      "original_dtype": "string",
+      "rebuilt_dtype": "string",
+      "dtype_equal": true,
+      "original_missing": 0,
+      "rebuilt_missing": 0,
+      "different_values": 0
+    },
+    {
+      "column": "brand_id",
+      "present_in_both": true,
+      "original_dtype": "string",
+      "rebuilt_dtype": "string",
+      "dtype_equal": true,
+      "original_missing": 0,
+      "rebuilt_missing": 0,
+      "different_values": 0
+    },
+    {
+      "column": "product_brand_name",
+      "present_in_both": true,
+      "original_dtype": "string",
+      "rebuilt_dtype": "string",
+      "dtype_equal": true,
+      "original_missing": 0,
+      "rebuilt_missing": 0,
+      "different_values": 0
+    },
+    {
+      "column": "loves_count",
+      "present_in_both": true,
+      "original_dtype": "Int64",
+      "rebuilt_dtype": "Int64",
+      "dtype_equal": true,
+      "original_missing": 0,
+      "rebuilt_missing": 0,
+      "different_values": 0
+    },
+    {
+      "column": "product_rating",
+      "present_in_both": true,
+      "original_dtype": "Float64",
+      "rebuilt_dtype": "Float64",
+      "dtype_equal": true,
+      "original_missing": 0,
+      "rebuilt_missing": 0,
+      "different_values": 0
+    },
+    {
+      "column": "reviews",
+      "present_in_both": true,
+      "original_dtype": "Int64",
+      "rebuilt_dtype": "Int64",
+      "dtype_equal": true,
+      "original_missing": 0,
+      "rebuilt_missing": 0,
+      "different_values": 0
+    },
+    {
+      "column": "size",
+      "present_in_both": true,
+      "original_dtype": "string",
+      "rebuilt_dtype": "string",
+      "dtype_equal": true,
+      "original_missing": 43345,
+      "rebuilt_missing": 43345,
+      "different_values": 0
+    },
+    {
+      "column": "variation_type",
+      "present_in_both": true,
+      "original_dtype": "string",
+      "rebuilt_dtype": "string",
+      "dtype_equal": true,
+      "original_missing": 51447,
+      "rebuilt_missing": 51447,
+      "different_values": 0
+    },
+    {
+      "column": "variation_value",
+      "present_in_both": true,
+      "original_dtype": "string",
+      "rebuilt_dtype": "string",
+      "dtype_equal": true,
+      "original_missing": 63424,
+      "rebuilt_missing": 63424,
+      "different_values": 0
+    },
+    {
+      "column": "variation_desc",
+      "present_in_both": true,
+      "original_dtype": "string",
+      "rebuilt_dtype": "string",
+      "dtype_equal": true,
+      "original_missing": 1085690,
+      "rebuilt_missing": 1085690,
+      "different_values": 0
+    },
+    {
+      "column": "ingredients",
+      "present_in_both": true,
+      "original_dtype": "string",
+      "rebuilt_dtype": "string",
+      "dtype_equal": true,
+      "original_missing": 22023,
+      "rebuilt_missing": 22023,
+      "different_values": 0
+    },
+    {
+      "column": "product_price_usd",
+      "present_in_both": true,
+      "original_dtype": "Float64",
+      "rebuilt_dtype": "Float64",
+      "dtype_equal": true,
+      "original_missing": 0,
+      "rebuilt_missing": 0,
+      "different_values": 0
+    },
+    {
+      "column": "value_price_usd",
+      "present_in_both": true,
+      "original_dtype": "Float64",
+      "rebuilt_dtype": "Float64",
+      "dtype_equal": true,
+      "original_missing": 1063100,
+      "rebuilt_missing": 1063100,
+      "different_values": 0
+    },
+    {
+      "column": "sale_price_usd",
+      "present_in_both": true,
+      "original_dtype": "Float64",
+      "rebuilt_dtype": "Float64",
+      "dtype_equal": true,
+      "original_missing": 1084218,
+      "rebuilt_missing": 1084218,
+      "different_values": 0
+    },
+    {
+      "column": "limited_edition",
+      "present_in_both": true,
+      "original_dtype": "boolean",
+      "rebuilt_dtype": "boolean",
+      "dtype_equal": true,
+      "original_missing": 0,
+      "rebuilt_missing": 0,
+      "different_values": 0
+    },
+    {
+      "column": "new",
+      "present_in_both": true,
+      "original_dtype": "boolean",
+      "rebuilt_dtype": "boolean",
+      "dtype_equal": true,
+      "original_missing": 0,
+      "rebuilt_missing": 0,
+      "different_values": 0
+    },
+    {
+      "column": "online_only",
+      "present_in_both": true,
+      "original_dtype": "boolean",
+      "rebuilt_dtype": "boolean",
+      "dtype_equal": true,
+      "original_missing": 0,
+      "rebuilt_missing": 0,
+      "different_values": 0
+    },
+    {
+      "column": "out_of_stock",
+      "present_in_both": true,
+      "original_dtype": "boolean",
+      "rebuilt_dtype": "boolean",
+      "dtype_equal": true,
+      "original_missing": 0,
+      "rebuilt_missing": 0,
+      "different_values": 0
+    },
+    {
+      "column": "sephora_exclusive",
+      "present_in_both": true,
+      "original_dtype": "boolean",
+      "rebuilt_dtype": "boolean",
+      "dtype_equal": true,
+      "original_missing": 0,
+      "rebuilt_missing": 0,
+      "different_values": 0
+    },
+    {
+      "column": "highlights",
+      "present_in_both": true,
+      "original_dtype": "string",
+      "rebuilt_dtype": "string",
+      "dtype_equal": true,
+      "original_missing": 113821,
+      "rebuilt_missing": 113821,
+      "different_values": 0
+    },
+    {
+      "column": "primary_category",
+      "present_in_both": true,
+      "original_dtype": "string",
+      "rebuilt_dtype": "string",
+      "dtype_equal": true,
+      "original_missing": 0,
+      "rebuilt_missing": 0,
+      "different_values": 0
+    },
+    {
+      "column": "secondary_category",
+      "present_in_both": true,
+      "original_dtype": "string",
+      "rebuilt_dtype": "string",
+      "dtype_equal": true,
+      "original_missing": 0,
+      "rebuilt_missing": 0,
+      "different_values": 0
+    },
+    {
+      "column": "tertiary_category",
+      "present_in_both": true,
+      "original_dtype": "string",
+      "rebuilt_dtype": "string",
+      "dtype_equal": true,
+      "original_missing": 161182,
+      "rebuilt_missing": 161182,
+      "different_values": 0
+    },
+    {
+      "column": "child_count",
+      "present_in_both": true,
+      "original_dtype": "Int64",
+      "rebuilt_dtype": "Int64",
+      "dtype_equal": true,
+      "original_missing": 0,
+      "rebuilt_missing": 0,
+      "different_values": 0
+    },
+    {
+      "column": "child_max_price",
+      "present_in_both": true,
+      "original_dtype": "Float64",
+      "rebuilt_dtype": "Float64",
+      "dtype_equal": true,
+      "original_missing": 640795,
+      "rebuilt_missing": 640795,
+      "different_values": 0
+    },
+    {
+      "column": "child_min_price",
+      "present_in_both": true,
+      "original_dtype": "Float64",
+      "rebuilt_dtype": "Float64",
+      "dtype_equal": true,
+      "original_missing": 640795,
+      "rebuilt_missing": 640795,
+      "different_values": 0
+    },
+    {
+      "column": "product_match_status",
+      "present_in_both": true,
+      "original_dtype": "string",
+      "rebuilt_dtype": "string",
+      "dtype_equal": true,
+      "original_missing": 0,
+      "rebuilt_missing": 0,
+      "different_values": 0
+    }
+  ],
+  "exact_value_differences": 0,
+  "dtype_differences": [],
+  "independent_raw_audit": {
+    "checks": [
+      {
+        "check": "raw review count reconciles with duplicate removals",
+        "passed": true,
+        "raw_rows": 1094411,
+        "removed_duplicates": 441,
+        "expected_retained": 1093970,
+        "rebuilt_rows": 1093970
+      },
+      {
+        "check": "review columns retained",
+        "passed": true
+      },
+      {
+        "check": "all review values correct before allowed demographic fills",
+        "passed": true
+      },
+      {
+        "check": "review IDs preserved from lexical raw input",
+        "passed": true
+      },
+      {
+        "check": "review product IDs present",
+        "passed": true
+      },
+      {
+        "check": "review dates valid",
+        "passed": true
+      },
+      {
+        "check": "skin_tone: expected same-author fills and all values",
+        "passed": true
+      },
+      {
+        "check": "skin_tone: observed values never overwritten",
+        "passed": true
+      },
+      {
+        "check": "skin_tone: conflicting authors not imputed",
+        "passed": true
+      },
+      {
+        "check": "eye_color: expected same-author fills and all values",
+        "passed": true
+      },
+      {
+        "check": "eye_color: observed values never overwritten",
+        "passed": true
+      },
+      {
+        "check": "eye_color: conflicting authors not imputed",
+        "passed": true
+      },
+      {
+        "check": "skin_type: expected same-author fills and all values",
+        "passed": true
+      },
+      {
+        "check": "skin_type: observed values never overwritten",
+        "passed": true
+      },
+      {
+        "check": "skin_type: conflicting authors not imputed",
+        "passed": true
+      },
+      {
+        "check": "hair_color: expected same-author fills and all values",
+        "passed": true
+      },
+      {
+        "check": "hair_color: observed values never overwritten",
+        "passed": true
+      },
+      {
+        "check": "hair_color: conflicting authors not imputed",
+        "passed": true
+      },
+      {
+        "check": "catalogue product keys unique and nonmissing",
+        "passed": true
+      },
+      {
+        "check": "all review products exist in catalogue",
+        "passed": true
+      },
+      {
+        "check": "catalogue join: product_product_name",
+        "passed": true
+      },
+      {
+        "check": "catalogue join: brand_id",
+        "passed": true
+      },
+      {
+        "check": "catalogue join: product_brand_name",
+        "passed": true
+      },
+      {
+        "check": "catalogue join: loves_count",
+        "passed": true
+      },
+      {
+        "check": "catalogue join: product_rating",
+        "passed": true
+      },
+      {
+        "check": "catalogue join: reviews",
+        "passed": true
+      },
+      {
+        "check": "catalogue join: size",
+        "passed": true
+      },
+      {
+        "check": "catalogue join: variation_type",
+        "passed": true
+      },
+      {
+        "check": "catalogue join: variation_value",
+        "passed": true
+      },
+      {
+        "check": "catalogue join: variation_desc",
+        "passed": true
+      },
+      {
+        "check": "catalogue join: ingredients",
+        "passed": true
+      },
+      {
+        "check": "catalogue join: product_price_usd",
+        "passed": true
+      },
+      {
+        "check": "catalogue join: value_price_usd",
+        "passed": true
+      },
+      {
+        "check": "catalogue join: sale_price_usd",
+        "passed": true
+      },
+      {
+        "check": "catalogue join: limited_edition",
+        "passed": true
+      },
+      {
+        "check": "catalogue join: new",
+        "passed": true
+      },
+      {
+        "check": "catalogue join: online_only",
+        "passed": true
+      },
+      {
+        "check": "catalogue join: out_of_stock",
+        "passed": true
+      },
+      {
+        "check": "catalogue join: sephora_exclusive",
+        "passed": true
+      },
+      {
+        "check": "catalogue join: highlights",
+        "passed": true
+      },
+      {
+        "check": "catalogue join: primary_category",
+        "passed": true
+      },
+      {
+        "check": "catalogue join: secondary_category",
+        "passed": true
+      },
+      {
+        "check": "catalogue join: tertiary_category",
+        "passed": true
+      },
+      {
+        "check": "catalogue join: child_count",
+        "passed": true
+      },
+      {
+        "check": "catalogue join: child_max_price",
+        "passed": true
+      },
+      {
+        "check": "catalogue join: child_min_price",
+        "passed": true
+      },
+      {
+        "check": "join status accurate",
+        "passed": true
+      },
+      {
+        "check": "exact merged column set",
+        "passed": true
+      },
+      {
+        "check": "review author IDs present",
+        "passed": true
+      }
+    ],
+    "file_counts": [
+      {
+        "file": "reviews_0-250.csv",
+        "rows": 602130,
+        "columns": 19
+      },
+      {
+        "file": "reviews_250-500.csv",
+        "rows": 206725,
+        "columns": 19
+      },
+      {
+        "file": "reviews_500-750.csv",
+        "rows": 116262,
+        "columns": 19
+      },
+      {
+        "file": "reviews_750-1250.csv",
+        "rows": 119317,
+        "columns": 19
+      },
+      {
+        "file": "reviews_1250-end.csv",
+        "rows": 49977,
+        "columns": 19
+      }
+    ],
+    "catalogue_rows": 8494,
+    "unique_review_products": 2351,
+    "unique_authors": 503216,
+    "raw_review_rows": 1094411,
+    "duplicate_rows_removed": 441,
+    "post_imputation_duplicates": 2,
+    "imputation": [
+      {
+        "attribute": "skin_tone",
+        "missing_before": 170379,
+        "values_filled": 48583,
+        "missing_after": 121796,
+        "expected_values_match": true,
+        "conflicting_missing_rows": 5764
+      },
+      {
+        "attribute": "eye_color",
+        "missing_before": 209458,
+        "values_filled": 44610,
+        "missing_after": 164848,
+        "expected_values_match": true,
+        "conflicting_missing_rows": 1129
+      },
+      {
+        "attribute": "skin_type",
+        "missing_before": 111403,
+        "values_filled": 33773,
+        "missing_after": 77630,
+        "expected_values_match": true,
+        "conflicting_missing_rows": 3366
+      },
+      {
+        "attribute": "hair_color",
+        "missing_before": 226597,
+        "values_filled": 55376,
+        "missing_after": 171221,
+        "expected_values_match": true,
+        "conflicting_missing_rows": 4684
+      }
+    ],
+    "leading_zero_author_rows": 0,
+    "passed": true,
+    "missing_author_ids": 0,
+    "repeated_author_product_pairs": 4660,
+    "catalogue_products_without_reviews": 6143
+  },
+  "no_significant_issues": true,
+  "storage_comparison": {
+    "physical_parquet_schema_equal": true,
+    "arrow_schema_equal": false,
+    "arrow_type_differences": [
+      {
+        "column": "author_id",
+        "original": "string",
+        "rebuilt": "large_string"
+      },
+      {
+        "column": "review_text",
+        "original": "string",
+        "rebuilt": "large_string"
+      },
+      {
+        "column": "review_title",
+        "original": "string",
+        "rebuilt": "large_string"
+      },
+      {
+        "column": "skin_tone",
+        "original": "string",
+        "rebuilt": "large_string"
+      },
+      {
+        "column": "eye_color",
+        "original": "string",
+        "rebuilt": "large_string"
+      },
+      {
+        "column": "skin_type",
+        "original": "string",
+        "rebuilt": "large_string"
+      },
+      {
+        "column": "hair_color",
+        "original": "string",
+        "rebuilt": "large_string"
+      },
+      {
+        "column": "product_id",
+        "original": "string",
+        "rebuilt": "large_string"
+      },
+      {
+        "column": "product_name",
+        "original": "string",
+        "rebuilt": "large_string"
+      },
+      {
+        "column": "brand_name",
+        "original": "string",
+        "rebuilt": "large_string"
+      },
+      {
+        "column": "source_file",
+        "original": "string",
+        "rebuilt": "large_string"
+      },
+      {
+        "column": "product_product_name",
+        "original": "string",
+        "rebuilt": "large_string"
+      },
+      {
+        "column": "brand_id",
+        "original": "string",
+        "rebuilt": "large_string"
+      },
+      {
+        "column": "product_brand_name",
+        "original": "string",
+        "rebuilt": "large_string"
+      },
+      {
+        "column": "size",
+        "original": "string",
+        "rebuilt": "large_string"
+      },
+      {
+        "column": "variation_type",
+        "original": "string",
+        "rebuilt": "large_string"
+      },
+      {
+        "column": "variation_value",
+        "original": "string",
+        "rebuilt": "large_string"
+      },
+      {
+        "column": "variation_desc",
+        "original": "string",
+        "rebuilt": "large_string"
+      },
+      {
+        "column": "ingredients",
+        "original": "string",
+        "rebuilt": "large_string"
+      },
+      {
+        "column": "highlights",
+        "original": "string",
+        "rebuilt": "large_string"
+      },
+      {
+        "column": "primary_category",
+        "original": "string",
+        "rebuilt": "large_string"
+      },
+      {
+        "column": "secondary_category",
+        "original": "string",
+        "rebuilt": "large_string"
+      },
+      {
+        "column": "tertiary_category",
+        "original": "string",
+        "rebuilt": "large_string"
+      },
+      {
+        "column": "product_match_status",
+        "original": "string",
+        "rebuilt": "large_string"
+      }
+    ],
+    "original_writer": "parquet-cpp-arrow version 26.0.1",
+    "rebuilt_writer": "parquet-cpp-arrow version 26.0.1",
+    "original_pandas_version": "3.1.1",
+    "rebuilt_pandas_version": "3.0.6",
+    "original_footer_bytes": 39070,
+    "rebuilt_footer_bytes": 39014,
+    "original_payload_sha256": "9d1a40860c793622c9d071f516b1c2ef3c2d813235b8e6f4f06cf78afa728013",
+    "rebuilt_payload_sha256": "9d1a40860c793622c9d071f516b1c2ef3c2d813235b8e6f4f06cf78afa728013",
+    "parquet_data_payload_byte_identical": true
+  },
+  "pipeline_source": {
+    "bytes": 35033,
+    "sha256": "cca700379a6aece658d4fabfc6af2209fbeed986c9467a1ac67c27e147a2b2fd"
+  },
+  "difference_classification": {
+    "analysis_values": "Exact match across every row and all 46 columns; no observed data discrepancy.",
+    "serialization": "Only footer metadata differs; all pre-footer Parquet bytes are identical.",
+    "code_corrections": "String-ID ingestion and schema/path/audit corrections do not change data values for these six CSVs.",
+    "post_imputation_duplicates": "Two duplicate rows emerge after attribute filling, match the reference, and are removed by the verified Part B pipeline."
+  }
+}

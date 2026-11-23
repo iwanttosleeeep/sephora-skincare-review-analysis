@@ -1,0 +1,13 @@
+{
+  "parts": [
+    "A"
+  ],
+  "analysis_sha256": null,
+  "steps": [
+    {
+      "part": "A",
+      "source": "Part A./Data_Integration_Audit.ipynb",
+      "exit_code": 0
+    }
+  ]
+}

@@ -8,6 +8,9 @@ __pycache__/
 
 # All raw, intermediate and processed datasets stay outside GitHub.
 /data/
+/archive/
+product_info.csv
+reviews_*.csv
 **/data/raw/
 *.parquet
 *.pkl

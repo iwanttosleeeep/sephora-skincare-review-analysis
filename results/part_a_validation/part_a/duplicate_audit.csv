@@ -1,0 +1,12 @@
+check,value
+product_rows,8494
+product_columns,27
+original_review_rows,1094411
+review_rows_after_deduplication,1093970
+duplicate_review_rows_identified,749
+duplicate_review_rows_removed,441
+missing_product_table_product_id,0
+duplicate_product_id_rows,0
+missing_review_product_id,0
+repeated_author_product_pairs_after_deduplication,4660
+rows_in_repeated_author_product_pairs,9744

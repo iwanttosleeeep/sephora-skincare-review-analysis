@@ -1,0 +1,5 @@
+metric,value
+unique_products_with_reviews,2351
+maximum_reviews_per_product,16116
+products_with_exactly_200_reviews,3
+products_with_more_than_200_reviews,1059

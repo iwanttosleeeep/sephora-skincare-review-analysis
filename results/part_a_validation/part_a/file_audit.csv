@@ -1,0 +1,6 @@
+file_name,row_count,column_count,unique_product_ids,missing_product_id
+reviews_0-250.csv,602130,19,250,0
+reviews_250-500.csv,206725,19,249,0
+reviews_500-750.csv,116262,19,249,0
+reviews_750-1250.csv,119317,19,499,0
+reviews_1250-end.csv,49977,19,1104,0

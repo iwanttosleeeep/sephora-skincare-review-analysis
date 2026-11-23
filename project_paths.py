@@ -9,7 +9,7 @@ PART_C = ROOT / "Part C. Exploratory Data Analysis & Visualization"
 PART_E = ROOT / "Part E. Main Modeling & Evaluation"
 PART_F = ROOT / "Part F. Secondary Outcome and Sensitivity Analysis"
 DATA_DIR = Path(os.environ.get("SEPHORA_DATA_DIR", ROOT / "data")).expanduser().resolve()
-RAW_DIR = DATA_DIR / "raw"
+RAW_DIR = Path(os.environ.get("SEPHORA_RAW_DIR", DATA_DIR / "raw")).expanduser().resolve()
 PROCESSED_DIR = DATA_DIR / "processed"
 ANALYSIS_PATH = Path(os.environ.get(
     "SEPHORA_ANALYSIS_PATH", PART_B / "data/processed/analysis_ready.parquet"

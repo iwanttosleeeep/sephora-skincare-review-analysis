@@ -1,0 +1,4 @@
+merge_status,row_count,percentage
+both,1093970,100.0
+left_only,0,0.0
+right_only,0,0.0

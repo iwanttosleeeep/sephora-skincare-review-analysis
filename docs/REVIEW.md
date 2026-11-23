@@ -4,9 +4,48 @@ Review date: 2026-11-23 (Asia/Hong_Kong).
 
 ## Scope and preservation
 
-The supplied `analysis_ready.parquet` is the authoritative input. The initial review did not execute A/B because upstream inputs were unavailable. In the 2026-11-23 follow-up below, B was executed using the newly supplied merged file. No Kaggle download, A execution, or intermediate reconstruction was performed. Part D is pending. Raw-to-merged provenance remains unverified without the original CSVs.
+The supplied `analysis_ready.parquet` is the authoritative input. The initial review did not execute A/B because upstream inputs were unavailable. Subsequent 2026-11-23 checks executed B from the supplied merged file, then A from the six CSVs downloaded by the user. Both reproduce the existing analysis data exactly. The agent performed no Kaggle download, and every rerun used fresh output directories. Downstream models were not changed or refitted during these upstream checks. Part D is pending.
 
 Before source edits, 57 supplied files were fingerprinted in `preservation/manifest.json`. Original notebooks, F scripts and results (56 files) are stored in `preservation/original_notebooks_and_results.zip`. The ~19 MB processed dataset was fingerprinted in place and remains unchanged. The verification script checks every archived file against its pre-edit hash. Supplied result files remain in their original locations; new results are separate.
+
+## Follow-up: Part A rerun from all six original CSVs
+
+**Outcome: no significant issues or observed data errors found. All 1,093,970 rows and 46 columns match the existing merged dataset exactly**, including row/column order, missingness and pandas dtypes. The corrected notebook completed all assertions, and 49 additional independent checks passed.
+
+The user supplied the six CSVs in local `archive/`. `preservation/part_a_rerun_before.json` records their sizes and SHA-256 hashes, the existing merged/processed fingerprints, and B/C/E/F source hashes. `preservation/part_a_rerun_before.zip` preserves A's notebook and supporting configuration/documentation. The A notebook itself was unchanged during this verification. Only explicit raw-directory selection (`SEPHORA_RAW_DIR`), the verification script, documentation and dataset exclusions were added.
+
+`scripts/compare_part_a.py --raw-dir archive` ran A into the fresh ignored directory `data/part_a_reruns/20261123T215602+0800/data/processed/`. Compact reports are separate under `results/part_a_validation/`. Existing run/report directories are rejected. Before/after hashes confirm all six raw CSVs, the existing merged file, authoritative processed file, and B/C/E/F sources are unchanged. Previous result files were not regenerated.
+
+| Check | Verified result |
+| --- | --- |
+| Catalogue | 8,494 rows; product keys unique and nonmissing |
+| Review files | 602,130 + 206,725 + 116,262 + 119,317 + 49,977 = 1,094,411 rows; consistent schemas |
+| Deduplication before imputation | 749 rows belong to duplicate groups; keep-first removes 441 rows, leaving 1,093,970 |
+| IDs | Every retained author/product ID matches normalized lexical CSV input and the reference; none missing; 503,216 authors and 2,351 reviewed products |
+| Join | All 1,093,970 reviews matched; zero unmatched; every one of the 26 joined product fields independently matches its catalogue source |
+| Catalogue coverage | 6,143 catalogue products have no reviews in these files, as allowed by a review-left join; its `right_only = 0` does not imply all catalogue products have reviews |
+| Conversion | Zero invalid/fractional-value issue records; valid review dates |
+| All column values | Zero differing cells, including complete review text, outcomes, feedback, IDs, demographics and product metadata, compared in source-file/row order |
+| Repeated author/product pairs | 4,660 pairs retained by design rather than automatically treated as duplicates |
+
+The independent verifier reread the CSVs, separately implemented the declared normalization rules, recomputed duplicate removal, and checked every retained review field. It recomputed each author's case-insensitive distinct demographic values and first observed donor, checked every expected fill, verified observed values were never overwritten, and verified conflicting authors' missing values stayed missing. Product checks mapped each output product ID directly to an independently normalized catalogue, rather than relying only on the `matched` flag.
+
+| Attribute | Missing before | Filled | Missing after | Missing rows left unfilled for conflicting authors |
+| --- | ---: | ---: | ---: | ---: |
+| Skin tone | 170,379 | 48,583 | 121,796 | 5,764 |
+| Eye colour | 209,458 | 44,610 | 164,848 | 1,129 |
+| Skin type | 111,403 | 33,773 | 77,630 | 3,366 |
+| Hair colour | 226,597 | 55,376 | 171,221 | 4,684 |
+
+Differences and classification:
+
+- **Code corrections, with no data effect here.** String-ID ingestion prevents future numeric inference/rounding or loss of leading zeros. Every retained ID and fill matches the reference; there were no leading-zero author IDs. Schema validation, configurable paths and saved audits improve reproducibility without changing these data. No ID corruption was observed in the reference file.
+- **Harmless footer metadata.** The reference is 219,310,137 bytes, SHA-256 `8bb2f5ace440e2b3fbeddf4950222e61a36a67624e3d80926b4e1fab21083e2e`; the rebuilt file is 219,310,081 bytes, SHA-256 `a2a97b7612433f4bbf8bc630b73da10f3dd2e7b4ba9e300af5bdf3692bc2c867`. Every byte before the footer is identical and the physical Parquet schema matches. The 56-byte size difference is confined to pandas/Arrow footer metadata: pandas 3.1.1 versus 3.0.6 and 24 Arrow text fields represented as `string` versus `large_string`. Both files report PyArrow 26.0.1 and load into identical pandas dtypes. No reference-data replacement is warranted.
+- **Expected duplicates after imputation.** Attribute filling makes two retained rows duplicate earlier reviews, exactly as in the reference. A deduplicates before filling; the previously verified B removes these two rows, then 121 near-identical same-day resubmissions. This is an understood pipeline-ordering effect, not a new discrepancy or an unhandled downstream duplicate error.
+
+Evidence: `results/part_a_validation/comparison.json`, `column_comparison.csv`, `independent_imputation.csv`, `execution.json`, and nine compact audit CSVs in `part_a/`. Raw files, original/rebuilt Parquet, logs and executed notebooks are excluded from Git. The raw `archive/` directory and original CSV filename patterns are explicitly ignored.
+
+Together with the B follow-up, this verifies the separate raw → merged and merged → processed stages against the existing datasets. The retrospective preprocessing, snapshot timing and observational interpretation limits below still apply.
 
 ## Follow-up: Part B rerun from the supplied merged file
 
@@ -32,9 +71,9 @@ The rebuilt Parquet has SHA-256 `18427b685677e77f024979a3c6b776a54b800fd1cdca3c9
 
 Evidence: `results/part_b_validation/comparison.json`, `column_comparison.csv`, `execution.json`, and compact B outputs under `part_b/`. The pre-follow-up source snapshot and input/model fingerprints are preserved in `preservation/part_b_rerun_before.zip` and `preservation/part_b_rerun_before.json`. The original merged and processed files were never overwritten. `.gitignore` now excludes every Parquet dataset, including the original processed file and regenerated text lookup; only code, documentation, preservation snapshots and manageable results are eligible for publication.
 
-This establishes reproducibility from the supplied merged file to the authoritative processed dataset. It does not independently validate A's processing of the unavailable raw CSVs or resolve the observational/prospective limitations below.
+This B check establishes merged-to-processed reproducibility. At that stage the raw CSVs were unavailable; the later A follow-up above verifies the preceding integration stage. Neither check resolves the observational/prospective limitations below.
 
-## A: integration and audit — static review
+## A: integration and audit — initial static review
 
 The left join uses `validate="many_to_one"`, rejects missing/duplicate product keys, retains unmatched reviews with an audit flag, and asserts the join preserves the number of review rows. Duplicate handling excludes feedback counts and file provenance; consistent-author imputation is restricted to authors with exactly one observed attribute value. These are coherent retrospective integration rules.
 
@@ -45,7 +84,7 @@ Corrections made:
 - Audit tables are now saved to `results/part_a/`; previously the heading promised saved reports but the code saved only Parquet.
 - Shared paths remove dependence on the notebook launch directory.
 
-Limitations: no raw files were available to test the join, coercion audit, demographic fills, deduplication, or original row counts. Case-insensitive author comparisons preserve the first original spelling; current B mappings expect the source spelling. Future new raw exports may require explicit normalization. The post-imputation duplicate pass in B is retained because filling attributes can make rows identical. A's left join cannot count catalogue products without reviews through the `right_only` indicator; a separate anti-join would be needed for that different question.
+The initial review lacked raw files; the follow-up above now verifies the join, coercion audit, fills, deduplication and row counts using the supplied CSVs. Case-insensitive author comparisons preserve the first original spelling; current B mappings expect the source spelling. Future new raw exports may require explicit normalization. The post-imputation duplicate pass in B is retained because filling attributes can make rows identical. A's left join cannot count catalogue products without reviews through the `right_only` indicator; a separate anti-join would be needed for that different question.
 
 ## B: cleaning and feature engineering — initial static review
 

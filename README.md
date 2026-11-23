@@ -6,7 +6,7 @@ This project studies how product price, category, marketing claims and reviewer 
 
 | Part | Purpose | Input → output | Availability / verification |
 | --- | --- | --- | --- |
-| A | Integrate and audit | Product catalogue + five review CSVs → `merged_reviews.parquet` | Notebook reviewed statically; raw inputs and intermediate not distributed; not executed |
+| A | Integrate and audit | Product catalogue + five review CSVs → `merged_reviews.parquet` | Rerun in isolation; all 1,093,970 × 46 values match; 49 independent raw-data checks passed |
 | B | Clean and engineer features | `merged_reviews.parquet` → `analysis_ready.parquet` | Rerun in isolation; all 1,093,847 × 52 values, dtypes and categories match the supplied processed file |
 | C | Exploratory analysis | `analysis_ready.parquet` → tables and figures | Rerun with supplied processed file |
 | D | Additional statistical analysis | `analysis_ready.parquet` | Pending; will be added later |
@@ -17,7 +17,7 @@ This project studies how product price, category, marketing claims and reviewer 
 
 **Datasets are intentionally omitted from Git, including `merged_reviews.parquet` (~219 MB) and `analysis_ready.parquet` (~19 MB). Their absence from a checkout is expected, not a project error.** Supply the authoritative processed file manually at the path above, or set `SEPHORA_ANALYSIS_PATH`. No data is automatically downloaded or regenerated.
 
-For the 2026-11-23 follow-up, the supplied merged file was available locally at `Part A./merged_reviews.parquet`. It is needed only to rerun B, not C–F. Raw CSVs remain unavailable. The optional text lookup was regenerated inside the ignored rerun directory; it is also excluded from Git.
+For the 2026-11-23 checks, the supplied merged file was available locally at `Part A./merged_reviews.parquet`, and the six original CSVs were subsequently supplied in local `archive/`. The merged file is needed only to rerun B, not C–F. The optional text lookup was regenerated inside the ignored B rerun directory. All these datasets remain excluded from Git.
 
 ## Run the available analyses
 
@@ -44,6 +44,20 @@ python scripts/run_analysis.py
 ```
 
 `SEPHORA_RESULTS_DIR` optionally changes the result directory. Verification compares the supplied dataset fingerprint and original results, so a deliberately different dataset requires a new, separately documented validation baseline.
+
+## Safely rerun and compare Part A
+
+With the six CSVs and existing reference datasets available locally:
+
+```bash
+python scripts/compare_part_a.py --raw-dir archive
+```
+
+The script executes the corrected A notebook into a new `data/part_a_reruns/<timestamp>/` directory and compares every row and column with the existing merged file. It separately verifies raw review fields, lexical IDs, duplicate removal, same-author imputation and every product join field against the CSVs. It checks raw/reference data and B/C/E/F source fingerprints; downstream models are not executed or changed.
+
+Compact reports go to `results/part_a_validation/`; existing run/report directories are rejected. Use a new `--report-dir` and optionally `--run-dir` for another check. `SEPHORA_RAW_DIR` also supports an external CSV directory for direct notebook execution.
+
+The completed comparison found zero data differences. The only file difference is harmless footer metadata; two expected post-imputation duplicates also match the reference and are handled by B. See [A's comparison evidence](results/part_a_validation/comparison.json) and [the review](docs/REVIEW.md).
 
 ## Safely rerun and compare Part B
 
@@ -90,7 +104,7 @@ The explicit `--include-upstream` flag is required for A/B. A validates that all
 
 Before corrections, the original notebooks, F scripts and all supplied manageable results were copied byte-for-byte into `preservation/original_notebooks_and_results.zip`. `preservation/manifest.json` records SHA-256 hashes and file sizes, including the processed Parquet file, which was fingerprinted in place rather than duplicated. Corrected source notebooks have cleared outputs; executed copies are separate so old outputs cannot be mistaken for new runs.
 
-See [the code review and verification report](docs/REVIEW.md), [machine-readable checks](results/verification.json), [file-by-file C/E/F result comparisons](results/result_comparison.csv), and [B's column comparisons](results/part_b_validation/column_comparison.csv). B/C/E/F verification includes execution. A remains statically reviewed because the raw CSVs are unavailable; the follow-up establishes merged-to-processed reproducibility, not raw-to-merged provenance.
+See [the code review](docs/REVIEW.md), [machine-readable downstream checks](results/verification.json), [C/E/F result comparisons](results/result_comparison.csv), [A's column comparisons](results/part_a_validation/column_comparison.csv), and [B's column comparisons](results/part_b_validation/column_comparison.csv). A/B/C/E/F verification includes execution. Separate A and B reruns reproduce the raw-to-merged and merged-to-processed stages without replacing the existing reference files.
 
 Models use product-clustered standard errors and product-disjoint evaluation with seed 5106. Their associations are observational. The main model's held-out ROC-AUC is about 0.524 and its joint price × skin interaction p-value is about 0.5005. Global preprocessing, author attribute filling across products, and 2023 product snapshots applied to older reviews limit prospective interpretations; see the review report.
 
