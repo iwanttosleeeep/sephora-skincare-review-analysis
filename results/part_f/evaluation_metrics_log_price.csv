@@ -1,0 +1,3 @@
+model,threshold,ROC-AUC,Balanced accuracy,Macro F1,Accuracy,Share predicted positive
+Log-price model,0.5 (default),0.5176399325083707,0.5,0.3864943623901355,0.6299768717625246,1.0
+Log-price model,0.641 (training outcome rate),0.5176399325083707,0.5008363955761287,0.49302717130792456,0.5024705162757803,0.5065036221495881

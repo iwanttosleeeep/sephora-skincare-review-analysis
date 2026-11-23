@@ -1,0 +1,6 @@
+skin_type_cat,n_reviews,n_products,n_five_star,mean_rating,median_rating,std_rating,five_star_rate_pct,review_share_pct,diff_mean_vs_overall,diff_fsr_vs_overall_pp
+Normal,136063,2195,86627,4.285,5.0,1.167,63.67,12.44,-0.014,-0.19
+Combination,563045,2320,358818,4.31,5.0,1.131,63.73,51.47,0.011,-0.13
+Dry,192284,2251,123211,4.291,5.0,1.161,64.08,17.58,-0.008,0.22
+Oily,124828,2121,78516,4.271,5.0,1.172,62.9,11.41,-0.028,-0.96
+Not reported,77627,1735,51359,4.31,5.0,1.183,66.16,7.1,0.011,2.3

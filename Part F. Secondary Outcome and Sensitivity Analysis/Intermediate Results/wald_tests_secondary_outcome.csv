@@ -1,0 +1,3 @@
+model,wald_chi2,wald_df,wald_p
+Recommendation model (price x skin),16.706829996300787,12,0.1609621213663279
+Five-star model on rec sample (price x skin),16.92522468422681,12,0.1524318249954873

@@ -1,0 +1,21 @@
+price_segment,skin_type_cat,n_reviews,n_products,mean_rating,five_star_rate_pct,diff_fsr_vs_overall_pp
+Budget (<$25),Normal,32244,441,4.236,63.39,-0.47
+Budget (<$25),Combination,136698,475,4.261,63.54,-0.32
+Budget (<$25),Dry,45760,460,4.244,63.91,0.05
+Budget (<$25),Oily,33610,436,4.232,63.18,-0.68
+Budget (<$25),Not reported,20132,336,4.376,68.02,4.16
+Mid ($25-49),Normal,51789,845,4.281,64.11,0.25
+Mid ($25-49),Combination,218087,884,4.316,64.27,0.41
+Mid ($25-49),Dry,74204,858,4.288,64.38,0.52
+Mid ($25-49),Oily,50355,820,4.28,63.34,-0.52
+Mid ($25-49),Not reported,34751,691,4.301,65.59,1.73
+Premium ($50-99),Normal,42906,692,4.326,63.75,-0.11
+Premium ($50-99),Combination,173898,718,4.346,63.79,-0.07
+Premium ($50-99),Dry,60634,700,4.338,64.43,0.57
+Premium ($50-99),Oily,34695,663,4.298,62.51,-1.35
+Premium ($50-99),Not reported,19168,552,4.285,65.8,1.94
+Luxury ($100+),Normal,9124,217,4.288,61.72,-2.14
+Luxury ($100+),Combination,34362,243,4.284,60.68,-3.18
+Luxury ($100+),Dry,11686,233,4.257,60.98,-2.88
+Luxury ($100+),Oily,6168,202,4.26,59.91,-3.95
+Luxury ($100+),Not reported,3576,156,4.165,63.23,-0.63

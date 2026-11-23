@@ -1,0 +1,392 @@
+{
+  "input": {
+    "path": "Part B. Data Cleaning & Feature Engineering/data/processed/analysis_ready.parquet",
+    "sha256": "c0ef6e2cc2f50d2267820d8da0f0c545e0761b2d7726bca27331b70cac9eea73",
+    "bytes": 19002351,
+    "rows": 1093847,
+    "columns": 52,
+    "products": 2351,
+    "five_star_rate": 0.6386002795637781,
+    "recommendation_rows": 926031
+  },
+  "splits": [
+    {
+      "sample": "full",
+      "n_reviews": 1093847,
+      "train_reviews": 884579,
+      "test_reviews": 209268,
+      "train_products": 1880,
+      "test_products": 471
+    },
+    {
+      "sample": "recommendation",
+      "n_reviews": 926031,
+      "train_reviews": 746983,
+      "test_reviews": 179048,
+      "train_products": 1880,
+      "test_products": 471
+    }
+  ],
+  "checks": [
+    {
+      "check": "original archive checksum verification",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "authoritative Parquet unchanged",
+      "passed": true,
+      "detail": "c0ef6e2cc2f50d2267820d8da0f0c545e0761b2d7726bca27331b70cac9eea73"
+    },
+    {
+      "check": "dataset dimensions",
+      "passed": true,
+      "detail": "(1093847, 52)"
+    },
+    {
+      "check": "unique review IDs",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "product and author keys present",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "product count",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "ratings and five_star agree",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "rating distribution",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "secondary outcome missingness",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "secondary outcome absent before 2017",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "model columns complete",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "fixed categories and references",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "binary highlight indicators",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "no highlights implies no claims",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "product covariates constant within product",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "positive finite prices and log transform",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "fixed price bins",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "price_segment one-hot encoding",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "category one-hot encoding",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "skin_type_cat one-hot encoding",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "repeat-review counts and flags",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "date features",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "interaction cell coverage",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "full product-disjoint evaluation",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "recommendation product-disjoint evaluation",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "all A/B/C/E notebook cells and F scripts parse",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "C/E/F executed successfully",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "all supplied C/E/F CSV results reproduced",
+      "passed": true,
+      "detail": "31/31 files"
+    }
+  ],
+  "comparisons": [
+    {
+      "part": "C",
+      "file": "eda_by_category.csv",
+      "passed": true,
+      "max_abs_numeric_difference": 0.0,
+      "atol": 1e-06
+    },
+    {
+      "part": "C",
+      "file": "eda_by_price_segment.csv",
+      "passed": true,
+      "max_abs_numeric_difference": 0.0,
+      "atol": 1e-06
+    },
+    {
+      "part": "C",
+      "file": "eda_by_price_skin.csv",
+      "passed": true,
+      "max_abs_numeric_difference": 0.0,
+      "atol": 1e-06
+    },
+    {
+      "part": "C",
+      "file": "eda_by_rating.csv",
+      "passed": true,
+      "max_abs_numeric_difference": 0.0,
+      "atol": 1e-06
+    },
+    {
+      "part": "C",
+      "file": "eda_by_skin_type.csv",
+      "passed": true,
+      "max_abs_numeric_difference": 0.0,
+      "atol": 1e-06
+    },
+    {
+      "part": "C",
+      "file": "step1_rating_distribution.csv",
+      "passed": true,
+      "max_abs_numeric_difference": 0.0,
+      "atol": 1e-06
+    },
+    {
+      "part": "C",
+      "file": "step2_fsr_category.csv",
+      "passed": true,
+      "max_abs_numeric_difference": 0.0,
+      "atol": 1e-06
+    },
+    {
+      "part": "C",
+      "file": "step2_fsr_price_segment.csv",
+      "passed": true,
+      "max_abs_numeric_difference": 0.0,
+      "atol": 1e-06
+    },
+    {
+      "part": "C",
+      "file": "step2_fsr_skin_type.csv",
+      "passed": true,
+      "max_abs_numeric_difference": 0.0,
+      "atol": 1e-06
+    },
+    {
+      "part": "C",
+      "file": "step3_diff_category.csv",
+      "passed": true,
+      "max_abs_numeric_difference": 0.0,
+      "atol": 1e-06
+    },
+    {
+      "part": "C",
+      "file": "step3_diff_price_segment.csv",
+      "passed": true,
+      "max_abs_numeric_difference": 0.0,
+      "atol": 1e-06
+    },
+    {
+      "part": "C",
+      "file": "step3_diff_skin_type.csv",
+      "passed": true,
+      "max_abs_numeric_difference": 0.0,
+      "atol": 1e-06
+    },
+    {
+      "part": "E",
+      "file": "confusion_matrix_main_default_0.5.csv",
+      "passed": true,
+      "max_abs_numeric_difference": 0.0,
+      "atol": 1e-06
+    },
+    {
+      "part": "E",
+      "file": "confusion_matrix_main_training_rate.csv",
+      "passed": true,
+      "max_abs_numeric_difference": 0.0,
+      "atol": 1e-06
+    },
+    {
+      "part": "E",
+      "file": "evaluation_metrics.csv",
+      "passed": true,
+      "max_abs_numeric_difference": 0.0,
+      "atol": 1e-06
+    },
+    {
+      "part": "E",
+      "file": "odds_ratios_main_model.csv",
+      "passed": true,
+      "max_abs_numeric_difference": 2.737143844910861e-12,
+      "atol": 1e-06
+    },
+    {
+      "part": "E",
+      "file": "odds_ratios_reduced_model.csv",
+      "passed": true,
+      "max_abs_numeric_difference": 8.215650382226158e-13,
+      "atol": 1e-06
+    },
+    {
+      "part": "E",
+      "file": "predicted_probabilities_skin_x_price.csv",
+      "passed": true,
+      "max_abs_numeric_difference": 1.4654943925052066e-14,
+      "atol": 1e-06
+    },
+    {
+      "part": "F",
+      "file": "table1_price_or_across_specifications.csv",
+      "passed": true,
+      "max_abs_numeric_difference": 0.0,
+      "atol": 1e-06
+    },
+    {
+      "part": "F",
+      "file": "table2_wald_tests.csv",
+      "passed": true,
+      "max_abs_numeric_difference": 0.0,
+      "atol": 1e-06
+    },
+    {
+      "part": "F",
+      "file": "table3_log_price_sensitivity.csv",
+      "passed": true,
+      "max_abs_numeric_difference": 0.0,
+      "atol": 1e-06
+    },
+    {
+      "part": "F",
+      "file": "table4_held_out_evaluation.csv",
+      "passed": true,
+      "max_abs_numeric_difference": 0.0,
+      "atol": 1e-06
+    },
+    {
+      "part": "F",
+      "file": "comparison_price_terms_five_star_vs_recommend.csv",
+      "passed": true,
+      "max_abs_numeric_difference": 6.308287225920139e-13,
+      "atol": 1e-06
+    },
+    {
+      "part": "F",
+      "file": "evaluation_metrics_log_price.csv",
+      "passed": true,
+      "max_abs_numeric_difference": 0.0,
+      "atol": 1e-06
+    },
+    {
+      "part": "F",
+      "file": "evaluation_metrics_recommendation.csv",
+      "passed": true,
+      "max_abs_numeric_difference": 1.3176970181660863e-08,
+      "atol": 1e-06
+    },
+    {
+      "part": "F",
+      "file": "log_price_odds_ratios.csv",
+      "passed": true,
+      "max_abs_numeric_difference": 3.760325384405405e-13,
+      "atol": 1e-06
+    },
+    {
+      "part": "F",
+      "file": "wald_test_log_price_model.csv",
+      "passed": true,
+      "max_abs_numeric_difference": 2.133937471171521e-11,
+      "atol": 1e-06
+    },
+    {
+      "part": "F",
+      "file": "wald_tests_secondary_outcome.csv",
+      "passed": true,
+      "max_abs_numeric_difference": 6.156852805361268e-12,
+      "atol": 1e-06
+    },
+    {
+      "part": "F",
+      "file": "odds_ratios_log_price_model.csv",
+      "passed": true,
+      "max_abs_numeric_difference": 9.300338277284936e-12,
+      "atol": 1e-06
+    },
+    {
+      "part": "F",
+      "file": "odds_ratios_main_model_on_rec_sample.csv",
+      "passed": true,
+      "max_abs_numeric_difference": 2.929656517380863e-12,
+      "atol": 1e-06
+    },
+    {
+      "part": "F",
+      "file": "odds_ratios_recommendation_model.csv",
+      "passed": true,
+      "max_abs_numeric_difference": 9.114486942962685e-12,
+      "atol": 1e-06
+    }
+  ],
+  "passed": true
+}

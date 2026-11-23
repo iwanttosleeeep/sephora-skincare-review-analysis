@@ -1,0 +1,4 @@
+Model,ROC-AUC,Balanced acc.,Macro F1,Accuracy
+"Main model (Part E), five-star",0.524,0.508,0.5,0.509
+Recommendation model,0.551,0.535,0.479,0.56
+"Log-price model, five-star",0.518,0.501,0.493,0.502

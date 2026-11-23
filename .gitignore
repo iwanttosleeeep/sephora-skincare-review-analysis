@@ -1,0 +1,16 @@
+.DS_Store
+.venv/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.pytest_cache/
+.cache/
+
+# All raw, intermediate and processed datasets stay outside GitHub.
+/data/
+**/data/raw/
+*.parquet
+*.pkl
+*.joblib
+**/executed/
+**/logs/
