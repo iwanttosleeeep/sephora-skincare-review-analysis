@@ -48,7 +48,7 @@ Split: 80/20 by product (seed 5106); 884,579 training and 209,268 test reviews; 
 
 | Model | Threshold | ROC-AUC | Balanced accuracy | Macro F1 | Accuracy | Share predicted five-star |
 | --- | --- | --- | --- | --- | --- | --- |
-| Baseline (always five-star) | nan | 0.500 | 0.500 | 0.386 | 0.630 | 100.0% |
+| Baseline (always five-star) | n/a | 0.500 | 0.500 | 0.386 | 0.630 | 100.0% |
 | Reduced model | 0.5 (default) | 0.524 | 0.500 | 0.386 | 0.630 | 100.0% |
 | Reduced model | 0.641 (training five-star rate) | 0.524 | 0.508 | 0.499 | 0.507 | 49.5% |
 | Main model | 0.5 (default) | 0.524 | 0.500 | 0.386 | 0.630 | 100.0% |
