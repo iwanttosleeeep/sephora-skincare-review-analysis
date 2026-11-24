@@ -1,0 +1,87 @@
+[
+  {
+    "path": "Part D. Statistical Uncertainty & Visualization/04_uncertainty_D.html",
+    "bytes": 500891,
+    "sha256": "52e68b28337270689bdcc3ad8242f57133d606f7de9c6b27da96e938a0fb2e39"
+  },
+  {
+    "path": "Part D. Statistical Uncertainty & Visualization/04_uncertainty_D.ipynb",
+    "bytes": 93164,
+    "sha256": "28422dac6b330389152d8bd2407c9136415eceee8d6b22c66e0e046333a38539"
+  },
+  {
+    "path": "Part D. Statistical Uncertainty & Visualization/PartD_Report_Notes.md",
+    "bytes": 14247,
+    "sha256": "a71ddfc1257cf76d0fd9a5e887e2ec2c4df20e7b5418a98ea1cc265eb259f9bd"
+  },
+  {
+    "path": "Part D. Statistical Uncertainty & Visualization/PartD_Report_Section_Draft.docx",
+    "bytes": 41397,
+    "sha256": "2f2a073db33aa5e3c8a9c4bab592cc3b11f707dece5e2601aa9b2b9dc957ac95"
+  },
+  {
+    "path": "Part D. Statistical Uncertainty & Visualization/README.md",
+    "bytes": 1838,
+    "sha256": "d2837a60efed0709b895fca13acb1a0d84ae17efda55eb44616226289635e8b0"
+  },
+  {
+    "path": "Part D. Statistical Uncertainty & Visualization/outputs/ci_differences.csv",
+    "bytes": 2206,
+    "sha256": "bd445f1277cf58015ae9c5097a2023194740de61a37be07caeaa1b6adef9016b"
+  },
+  {
+    "path": "Part D. Statistical Uncertainty & Visualization/outputs/ci_group_rates.csv",
+    "bytes": 4293,
+    "sha256": "ba323c9f2a7e201dcf4404ef56d90ad1e87472af8e89a579b39652ee5a3004ee"
+  },
+  {
+    "path": "Part D. Statistical Uncertainty & Visualization/outputs/ci_pairwise_price.csv",
+    "bytes": 999,
+    "sha256": "201f7de31585a0cdf89c522b29a65862af516b19fa6689fe8ccc3b04a0d579df"
+  },
+  {
+    "path": "Part D. Statistical Uncertainty & Visualization/outputs/ci_price_gradient_by_skin.csv",
+    "bytes": 544,
+    "sha256": "41032be2d283ae5c604055a257ace3d23ea8a9e296a0da244ad44a88ffd1dcb1"
+  },
+  {
+    "path": "Part D. Statistical Uncertainty & Visualization/outputs/ci_skin_x_price_cells.csv",
+    "bytes": 2216,
+    "sha256": "a65324494f3ca3cb5fe46320fdc2c204d4560211bd674e511b7c3032bddcd387"
+  },
+  {
+    "path": "Part D. Statistical Uncertainty & Visualization/outputs/figures/D1_group_rates_ci.png",
+    "bytes": 253456,
+    "sha256": "22672764113f99e37b0f6076080f6e1e481d4b37ad43540000f7c6e77d6aab07"
+  },
+  {
+    "path": "Part D. Statistical Uncertainty & Visualization/outputs/figures/D2_interaction_plot.png",
+    "bytes": 133664,
+    "sha256": "e884afad6f2a0bf321e8d3e28d270dfe1e9783451cb17a3e5563092ef36a8b2d"
+  },
+  {
+    "path": "Part D. Statistical Uncertainty & Visualization/outputs/figures/D3_price_gradient_by_skin.png",
+    "bytes": 78699,
+    "sha256": "5563a06012b51086576eacf650467132a6b5490df225edeb15030fec8687fdff"
+  },
+  {
+    "path": "Part D. Statistical Uncertainty & Visualization/outputs/figures/D4_naive_vs_cluster_ci.png",
+    "bytes": 125325,
+    "sha256": "3c46b5d5c3bd42a703ed0c92dbcc991184ab5e9661ea708a69f8cdf2188a957c"
+  },
+  {
+    "path": "Part D. Statistical Uncertainty & Visualization/outputs/figures/D5_observed_vs_model.png",
+    "bytes": 171710,
+    "sha256": "e3b81be1dbc1655e6b584ae7b9ab0b6bcf841a0bcd717cd1522daf572d7f72cf"
+  },
+  {
+    "path": "Part D. Statistical Uncertainty & Visualization/outputs/interaction_test.csv",
+    "bytes": 195,
+    "sha256": "6f9268fefd3870b6745fd01340c36d41c2fb3b98ed723772eb60588c09ad0ef8"
+  },
+  {
+    "path": "Part D. Statistical Uncertainty & Visualization/outputs/observed_vs_model.csv",
+    "bytes": 2749,
+    "sha256": "138b14f37035d17c9f5c34a7aef9dbcdf4a5e172d5a6a2fa1b6f5cb592a18817"
+  }
+]

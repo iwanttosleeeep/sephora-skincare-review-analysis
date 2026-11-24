@@ -1,12 +1,61 @@
 # Code review and reproducibility verification
 
-Review date: 2026-11-23 (Asia/Hong_Kong).
+Initial review: 2026-11-23; Part D follow-up: 2026-11-24 (Asia/Hong_Kong).
 
 ## Scope and preservation
 
-The supplied `analysis_ready.parquet` is the authoritative input. The initial review did not execute A/B because upstream inputs were unavailable. Subsequent 2026-11-23 checks executed B from the supplied merged file, then A from the six CSVs downloaded by the user. Both reproduce the existing analysis data exactly. The agent performed no Kaggle download, and every rerun used fresh output directories. Downstream models were not changed or refitted during these upstream checks. Part D is pending.
+The supplied `analysis_ready.parquet` is the authoritative input. The initial review did not execute A/B because upstream inputs were unavailable. Subsequent 2026-11-23 checks executed B from the supplied merged file, then A from the six CSVs downloaded by the user. Both reproduce the existing analysis data exactly. The agent performed no Kaggle download, and every rerun used fresh output directories. Downstream models were not changed or refitted during these upstream checks. Part D was added and audited on 2026-11-24; its findings and corrections are documented below.
 
 Before source edits, 57 supplied files were fingerprinted in `preservation/manifest.json`. Original notebooks, F scripts and results (56 files) are stored in `preservation/original_notebooks_and_results.zip`. The ~19 MB processed dataset was fingerprinted in place and remains unchanged. The verification script checks every archived file against its pre-edit hash. Supplied result files remain in their original locations; new results are separate.
+
+## Part D audit and reproduction on 2026-11-24
+
+**Verification passes after technical corrections: all 101 independent checks pass.** All seven submitted numerical CSVs reproduce, including all bootstrap confidence intervals and the interaction test. The prior 31 C/E/F CSV comparisons also still pass. The original 17-file submission (notebook, notes, CSVs, five figures, HTML and Word draft) is preserved byte-for-byte in `preservation/part_d_original_submission.zip`; `part_d_original_manifest.json` records hashes. The supplied `outputs/`, HTML and Word draft remain historical snapshots. Corrected source/notes are in the Part D folder; current tables, diagnostics, figures and verification evidence are in `results/part_d/`.
+
+The original notebook was first executed with **path-only substitutions**, into `results/part_d_original_rerun/part_d/`, before any statistical corrections. `scripts/reproduce_original_part_d.py --output-dir <new-directory>` reproduces that step from the immutable archive. Corrected D runs through `scripts/run_analysis.py --parts D`; its separate `results/execution_d.json` preserves C/E/F's previous execution record. The full default order is C, E, D, F so E's comparison artifact is ready. No A/B/C/E/F notebook, F model script, supplied model result or authoritative data file was changed or refitted during this audit; protected hashes are in `preservation/part_d_pre_verification.json`.
+
+### Bootstrap methodology and independent checks
+
+The method resamples **2,351 products with replacement for each of 2,000 draws**, seed 5106. Every selected product contributes all its reviews, including full multiplicity if drawn repeatedly. The target is a **review-weighted ratio of sums**, not an equal-product mean. A single draw matrix is reused for overall rates, group rates, cells and all differences, preserving dependence in paired contrasts. Percentile endpoints are 2.5% and 97.5% with linear interpolation; SEs use `ddof=1`. These choices, including the four-reported-skin interaction test, were retained.
+
+`verify_part_d.py` independently constructs dense product multiplicity counts, obtains product/group totals via integer coding and `bincount`, and recomputes rates using matrix multiplication. Explicit sorted order-statistic interpolation independently checks the percentile endpoints. Every group and all 20 cells have positive denominators in all 2,000 draws. An unequal-cluster toy example matches literal review-row expansion, including repeated products; empty-group draws raise an explicit error. The script independently verifies naive Wilson intervals against SciPy, pooled naive normal tests, paired differences, flags, SEs, variance ratios, ICC sums of squares, and the recentred range statistic with its plus-one correction.
+
+The cluster-pairs resampling logic follows [Cameron and Miller's description](https://cameron.econ.ucdavis.edu/research/Cameron_Miller_Cluster_Robust_October152013.pdf). Percentile intervals and shared-index paired resampling follow the definitions in [SciPy's bootstrap documentation](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bootstrap.html). These sources support the computational method, not a claim that the observed catalogue is a random sample.
+
+### Confirmed errors corrected without changing analytical decisions
+
+| Issue | Correction and impact |
+| --- | --- |
+| ICC uses the unweighted mean of product means for between-product sums of squares and `(n-1)p(1-p)` within products | Use the review-weighted grand mean and binary within-product sum `np(1-p)`. ICC changes from 0.0493741061 to **0.0490411252**. The bootstrap does not depend on this diagnostic, so no intervals change. |
+| “All reviews” displays the mean of four segment rates | Correct **63.2447% → 63.8600%**. Equal-product overall is 63.1063%; the weighting estimands are different. |
+| Claims Luxury is highest with equal-product weights | **Premium is highest (64.9865%)**; Luxury is second (64.0999%). The ordering still differs from review weighting, where Luxury is lowest. |
+| Six of nine category contrasts claimed to exclude zero | Correct count is **five**, using the submitted pointwise paired-difference intervals. |
+| Reported skin types described as unrelated because marginal intervals overlap | Oily minus overall is **−0.9607 pp, CI −1.3394 to −0.5976**. Correlated, paired contrasts can be precise despite overlapping marginal intervals. |
+| “Five comparisons stop being significant” | Five naive flags fall to one bootstrap flag: **four** lose nominal significance. |
+| D said to exclude Not reported “as in E”; test described as one-degree-of-freedom style | E includes all five types. D compares four Luxury-minus-Budget risk differences (three equality restrictions); E tests 12 adjusted log-odds interactions. Neither analytical choice was changed. |
+| Interval overlap called equivalence/independent model validation | D compares raw cells with E's adjusted standardized predictions using the same reviews. The comparison is descriptive, not an equivalence test or external validation. |
+| Fixed plot limits truncate Oily/Luxury's lower bound and Not reported/Budget's upper bound; D3 connector uses wrong axis | Dynamic bounds include complete intervals in D2/D5; D3 uses a horizontal connector. Titles no longer claim equivalence or population effects. |
+| Universal 200-review cap and negligible BCa differences asserted without support | Data reach **16,115** reviews per product. No universal 200 cap is supported. BCa/studentized results were not computed, so their differences cannot be promised small. |
+
+Machine-specific paths and silent omission of the E comparison were replaced by shared project paths and an explicit missing-artifact failure. Input, outcome, fixed levels and product-level grouping invariants are checked. Figures were visually inspected after regeneration. The original Word draft was rendered and all four pages inspected; it and the original HTML were deliberately retained unchanged as labelled historical artifacts, not updated final submission exports.
+
+### Findings and consistency with C E and F
+
+The overall five-star rate is **63.8600%, 95% CI 63.0818–64.6181%**. Bootstrap SE is 0.398128 pp versus naive 0.045934 pp; their variance ratio is 75.1251. The equivalent 14,560 independent reviews applies to this estimator/variance comparison and is not a universal effective sample size. Price pair comparisons retain five naive versus one nominal bootstrap exclusion. Cleansers, Eye Care, Masks, Sunscreen and Tools/Wellness/Self-Tan are the five category contrasts excluding zero; Lip Care's interval includes zero despite the highest point estimate.
+
+C agrees on every count and rate, including all 20 skin × price cells. D's observed/model CSV agrees with E's saved predictions to floating-point tolerance (maximum discrepancy about 1.5e-12 percentage points). E and F agree on their shared full-sample five-star Wald/AUC references. F's recommendation outcome and 926,031-row eligible sample are different from D's all-review five-star analysis and are not direct rate benchmarks.
+
+D's retained range test has **T = 1.599222 pp, p = 0.194403**, Monte Carlo SE approximately **0.00885**. E's 12-term Wald p is **0.500491**. Both fail to reject their respective nulls at 5%, but the scales, contrasts and included skin levels differ; agreement does not establish absence of all interactions. E's Not reported odds ratio is conditional on Budget price, not an overall marginal risk difference.
+
+### Substantive limitations remaining
+
+Intervals are **pointwise and unadjusted for multiple comparisons**. Borderline findings, including Mid–Luxury and Luxury versus overall, should not be presented as familywise-confirmed discoveries. The `boot_p` columns are two-sided percentile-tail approximations; they were preserved for compatibility and are not the same construction as the null-recentred interaction p-value. A zero tail count among 2,000 draws is not a true probability of zero. Finite-replicate Monte Carlo uncertainty remains.
+
+Product independence/exchangeability and representativeness are assumptions. The catalogue is not a probability sample; common brands/authors can induce dependence across products. Percentile coverage can be sensitive to skew and influential clusters, especially in smaller groups such as Lip Care (61 products). BCa/studentized alternatives and multiplicity-adjusted inference were not introduced because that would alter the submitted analytical decisions. No equivalence, causal, universal no-interaction, or assumption-free/design-based sampling claim is justified.
+
+There are no unresolved numerical implementation discrepancies. **The preserved Word/HTML exports still require a final manuscript/export refresh before submission**; their original mistakes are intentionally documented rather than silently presenting those snapshots as corrected. Use the current notebook, corrected Markdown notes and `results/part_d/` as the canonical analysis.
+
+Evidence: `results/part_d/verification.json`, `original_result_comparison.csv`, `diagnostics.json`, `weighting_sensitivity.csv`, and `results/execution_d.json`. Large data, logs and executed notebooks remain excluded from Git. Original author/AI provenance is preserved; corrected notes separately acknowledge this audit.
 
 ## Follow-up: Part A rerun from all six original CSVs
 

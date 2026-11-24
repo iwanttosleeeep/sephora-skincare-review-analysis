@@ -9,7 +9,7 @@ This project studies how product price, category, marketing claims and reviewer 
 | A | Integrate and audit | Product catalogue + five review CSVs → `merged_reviews.parquet` | Rerun in isolation; all 1,093,970 × 46 values match; 49 independent raw-data checks passed |
 | B | Clean and engineer features | `merged_reviews.parquet` → `analysis_ready.parquet` | Rerun in isolation; all 1,093,847 × 52 values, dtypes and categories match the supplied processed file |
 | C | Exploratory analysis | `analysis_ready.parquet` → tables and figures | Rerun with supplied processed file |
-| D | Additional statistical analysis | `analysis_ready.parquet` | Pending; will be added later |
+| D | Product-cluster bootstrap uncertainty | `analysis_ready.parquet` + E predictions → CIs and figures | Audited and rerun; all 7 submitted CSVs reproduce; independent checks pass |
 | E | Main models and evaluation | `analysis_ready.parquet` → clustered odds ratios, metrics and figures | Rerun with supplied processed file |
 | F | Secondary outcome and sensitivity | `analysis_ready.parquet` → recommendation/log-price models and comparison tables | All three scripts rerun |
 
@@ -29,14 +29,15 @@ source .venv/bin/activate
 python -m pip install -r requirements-lock.txt
 python scripts/run_analysis.py
 python scripts/verify_results.py
+python scripts/verify_part_d.py
 python scripts/check_upstream_helpers.py
 ```
 
-`run_analysis.py` defaults to C, E and all three F scripts. It runs each notebook/script in a separate process, checks failures and model convergence, and confirms the input hash is unchanged. No Jupyter server is needed. Notebooks can also be opened interactively with this environment; run them from within the project folder or a Part folder.
+`run_analysis.py` defaults to C, E, D and all three F scripts. E runs before D because D compares against E's saved predictions. It runs each notebook/script in a separate process, checks failures and model convergence, and confirms the input hash is unchanged. No Jupyter server is needed. Notebooks can also be opened interactively with this environment; run them from within the project folder or a Part folder.
 
-Regenerated results go to `results/part_c/`, `results/part_e/` and `results/part_f/`. The supplied result files remain in their original Part folders. Execution logs and executed notebook copies are under `results/logs/` and `results/executed/` and are ignored by Git. Headless runs save PNG files; Matplotlib may also print a non-interactive-display warning.
+Regenerated results go to `results/part_c/`, `results/part_d/`, `results/part_e/` and `results/part_f/`. The supplied result files remain in their original Part folders. Execution logs and executed notebook copies are under `results/logs/` and `results/executed/` and are ignored by Git. Headless runs save PNG files; Matplotlib may also print a non-interactive-display warning.
 
-To run a subset, use `python scripts/run_analysis.py --parts C E` (the verification command expects a complete default C/E/F run). Paths are resolved within this project rather than through Windows drives or a search of the user's home directory. To use an externally stored processed file:
+To run a subset, use `python scripts/run_analysis.py --parts C E` (`verify_results.py` expects C/E/F; `verify_part_d.py` checks D separately). Paths are resolved within this project rather than through Windows drives or a search of the user's home directory. To use an externally stored processed file:
 
 ```bash
 export SEPHORA_ANALYSIS_PATH="/absolute/path/to/analysis_ready.parquet"
@@ -44,6 +45,19 @@ python scripts/run_analysis.py
 ```
 
 `SEPHORA_RESULTS_DIR` optionally changes the result directory. Verification compares the supplied dataset fingerprint and original results, so a deliberately different dataset requires a new, separately documented validation baseline.
+
+## Verify Part D uncertainty analysis
+
+```bash
+python scripts/run_analysis.py --parts D
+python scripts/verify_part_d.py
+```
+
+D uses the authoritative dataset and E's saved predictions. D-only runs write `results/execution_d.json`, preserving prior C/E/F execution evidence. Its original 17-file submission is archived in `preservation/part_d_original_submission.zip`; source hashes are in the adjacent manifest. Current outputs are in `results/part_d/`.
+
+All seven submitted CSVs reproduce. Technical corrections fix the ICC diagnostic, an incorrect displayed overall rate, interval clipping and plotting, plus confirmed reporting errors. Seed 5106, 2,000 product draws, percentile intervals, review weighting, paired contrasts and the four-reported-skin interaction test are unchanged. C/E/F model files and results were not changed or refitted.
+
+See [D's independent verification](results/part_d/verification.json), [the corrected notes](Part%20D.%20Statistical%20Uncertainty%20%26%20Visualization/PartD_Report_Notes.md), and [the review](docs/REVIEW.md). Pointwise intervals are not multiplicity adjusted; D and E test different interaction hypotheses. Original HTML/Word exports remain historical snapshots with original errors, not updated final submission documents.
 
 ## Safely rerun and compare Part A
 
@@ -98,13 +112,13 @@ export SEPHORA_ANALYSIS_PATH="$SEPHORA_DATA_DIR/processed/analysis_ready.parquet
 python scripts/run_analysis.py
 ```
 
-The explicit `--include-upstream` flag is required for A/B. A validates that all six files exist before loading; B explains the missing intermediate if it is unavailable. B rebuilds into `SEPHORA_DATA_DIR/processed/`, preserving the supplied authoritative file. Without the environment override, upstream data defaults to the ignored root `data/` folder. D will need to be integrated when its code is supplied.
+The explicit `--include-upstream` flag is required for A/B. A validates that all six files exist before loading; B explains the missing intermediate if it is unavailable. B rebuilds into `SEPHORA_DATA_DIR/processed/`, preserving the supplied authoritative file. Without the environment override, upstream data defaults to the ignored root `data/` folder. D is integrated and runs after E so its model-comparison input is available.
 
 ## Preservation, checks and interpretation
 
 Before corrections, the original notebooks, F scripts and all supplied manageable results were copied byte-for-byte into `preservation/original_notebooks_and_results.zip`. `preservation/manifest.json` records SHA-256 hashes and file sizes, including the processed Parquet file, which was fingerprinted in place rather than duplicated. Corrected source notebooks have cleared outputs; executed copies are separate so old outputs cannot be mistaken for new runs.
 
-See [the code review](docs/REVIEW.md), [machine-readable downstream checks](results/verification.json), [C/E/F result comparisons](results/result_comparison.csv), [A's column comparisons](results/part_a_validation/column_comparison.csv), and [B's column comparisons](results/part_b_validation/column_comparison.csv). A/B/C/E/F verification includes execution. Separate A and B reruns reproduce the raw-to-merged and merged-to-processed stages without replacing the existing reference files.
+See [the code review](docs/REVIEW.md), [machine-readable downstream checks](results/verification.json), [C/E/F result comparisons](results/result_comparison.csv), [A's column comparisons](results/part_a_validation/column_comparison.csv), and [B's column comparisons](results/part_b_validation/column_comparison.csv). A/B/C/D/E/F verification includes execution. Separate A and B reruns reproduce the raw-to-merged and merged-to-processed stages without replacing the existing reference files.
 
 Models use product-clustered standard errors and product-disjoint evaluation with seed 5106. Their associations are observational. The main model's held-out ROC-AUC is about 0.524 and its joint price × skin interaction p-value is about 0.5005. Global preprocessing, author attribute filling across products, and 2023 product snapshots applied to older reviews limit prospective interpretations; see the review report.
 

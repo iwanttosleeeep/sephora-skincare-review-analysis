@@ -9,10 +9,10 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from project_paths import PART_A, PART_B, PART_C, PART_E, PART_F, RESULTS_DIR, require_analysis
+from project_paths import PART_A, PART_B, PART_C, PART_D, PART_E, PART_F, RESULTS_DIR, require_analysis
 
 NOTEBOOKS = {p: next(folder.glob("*.ipynb")) for p, folder in
-             [("A", PART_A), ("B", PART_B), ("C", PART_C), ("E", PART_E)]}
+             [("A", PART_A), ("B", PART_B), ("C", PART_C), ("D", PART_D), ("E", PART_E)]}
 
 
 def notebook(path):
@@ -48,7 +48,7 @@ def notebook(path):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--parts", nargs="+", choices=list("ABCEF"), default=list("CEF"))
+    parser.add_argument("--parts", nargs="+", choices=list("ABCDEF"), default=list("CEDF"))
     parser.add_argument("--include-upstream", action="store_true",
                         help="Explicitly enable A/B; requires manually supplied upstream files")
     parser.add_argument("--worker", type=Path, help=argparse.SUPPRESS)
@@ -63,7 +63,7 @@ def main():
     if set(args.parts) & set("AB") and not args.include_upstream:
         parser.error("A/B require --include-upstream and manually supplied inputs; no download is performed.")
     fingerprint = None
-    if set(args.parts) & set("CEF"):
+    if set(args.parts) & set("CDEF"):
         fingerprint = hashlib.file_digest(require_analysis().open("rb"), "sha256").hexdigest()
     log_dir = RESULTS_DIR / "logs"
     log_dir.mkdir(parents=True, exist_ok=True)
@@ -84,7 +84,8 @@ def main():
                                         cwd=ROOT, env=env, stdout=stream, stderr=subprocess.STDOUT)
             report["steps"].append({"part": part, "source": str(path.relative_to(ROOT)),
                                     "exit_code": status.returncode})
-            (RESULTS_DIR / "execution.json").write_text(json.dumps(report, indent=2) + "\n")
+            manifest_name = "execution_d.json" if args.parts == ["D"] else "execution.json"
+            (RESULTS_DIR / manifest_name).write_text(json.dumps(report, indent=2) + "\n")
             if status.returncode:
                 raise SystemExit(f"Execution failed. See {log}")
     if fingerprint:

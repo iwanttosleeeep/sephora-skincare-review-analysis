@@ -17,3 +17,5 @@ reviews_*.csv
 *.joblib
 **/executed/
 **/logs/
+*.log
+/results/part_d_original_rerun/part_d/figures/

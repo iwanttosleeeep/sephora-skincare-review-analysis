@@ -6,6 +6,7 @@ ROOT = Path(__file__).resolve().parent
 PART_A = ROOT / "Part A."
 PART_B = ROOT / "Part B. Data Cleaning & Feature Engineering"
 PART_C = ROOT / "Part C. Exploratory Data Analysis & Visualization"
+PART_D = ROOT / "Part D. Statistical Uncertainty & Visualization"
 PART_E = ROOT / "Part E. Main Modeling & Evaluation"
 PART_F = ROOT / "Part F. Secondary Outcome and Sensitivity Analysis"
 DATA_DIR = Path(os.environ.get("SEPHORA_DATA_DIR", ROOT / "data")).expanduser().resolve()

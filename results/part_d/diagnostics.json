@@ -1,0 +1,19 @@
+{
+  "seed": 5106,
+  "replicates": 2000,
+  "products": 2351,
+  "reviews": 1093847,
+  "percentile_method": "linear",
+  "icc": 0.04904112516052743,
+  "ms_between": 5.477837463615669,
+  "ms_within": 0.21949323687538722,
+  "review_weighted_overall_pct": 63.860027956377806,
+  "product_weighted_overall_pct": 63.10631531708625,
+  "overall_bootstrap_se_pp": 0.39812800429572726,
+  "overall_design_effect": 75.12510936457622,
+  "effective_review_count_variance_equivalent": 14560.338204522897,
+  "draw_indices_sha256": "3ce7acad346d9b847a758c0f04b35d12c8a822e5c3dadd5d4f2d83e696e46c92",
+  "interaction_p": 0.19440279860069964,
+  "interaction_monte_carlo_se": 0.008849021146344817,
+  "part_e_predictions_path": "results/part_e/predicted_probabilities_skin_x_price.csv"
+}
