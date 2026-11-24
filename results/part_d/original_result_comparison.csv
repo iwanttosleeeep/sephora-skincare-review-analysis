@@ -1,8 +1,0 @@
-file,passed,max_abs_difference
-ci_differences.csv,True,0.0
-ci_group_rates.csv,True,0.0
-ci_pairwise_price.csv,True,0.0
-ci_price_gradient_by_skin.csv,True,0.0
-ci_skin_x_price_cells.csv,True,0.0
-interaction_test.csv,True,0.0
-observed_vs_model.csv,True,1.4637180356658064e-12

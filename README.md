@@ -1,127 +1,81 @@
 # Sephora skincare review analysis
 
-This project studies how product price, category, marketing claims and reviewer skin type relate to five-star skincare reviews and recommendations. The source is the public Kaggle dataset [Sephora Products and Skincare Reviews](https://www.kaggle.com/datasets/nadyinky/sephora-products-and-skincare-reviews), collected from Sephora's US website in March 2023.
+STAT5106 research project on associations between product characteristics, reviewer skin type, five-star ratings and recommendations. The analysis uses 1,093,847 reviews of 2,351 products from the March 2023 Sephora US snapshot.
 
-## Data and pipeline status
-
-| Part | Purpose | Input → output | Availability / verification |
-| --- | --- | --- | --- |
-| A | Integrate and audit | Product catalogue + five review CSVs → `merged_reviews.parquet` | Rerun in isolation; all 1,093,970 × 46 values match; 49 independent raw-data checks passed |
-| B | Clean and engineer features | `merged_reviews.parquet` → `analysis_ready.parquet` | Rerun in isolation; all 1,093,847 × 52 values, dtypes and categories match the supplied processed file |
-| C | Exploratory analysis | `analysis_ready.parquet` → tables and figures | Rerun with supplied processed file |
-| D | Product-cluster bootstrap uncertainty | `analysis_ready.parquet` + E predictions → CIs and figures | Audited and rerun; all 7 submitted CSVs reproduce; independent checks pass |
-| E | Main models and evaluation | `analysis_ready.parquet` → clustered odds ratios, metrics and figures | Rerun with supplied processed file |
-| F | Secondary outcome and sensitivity | `analysis_ready.parquet` → recommendation/log-price models and comparison tables | All three scripts rerun |
-
-**The authoritative downstream input is** `Part B. Data Cleaning & Feature Engineering/data/processed/analysis_ready.parquet`: 19,002,351 bytes (~19 MB), 1,093,847 rows × 52 columns, 2,351 products. All C–F analyses should use this file through `project_paths.require_analysis()`.
-
-**Datasets are intentionally omitted from Git, including `merged_reviews.parquet` (~219 MB) and `analysis_ready.parquet` (~19 MB). Their absence from a checkout is expected, not a project error.** Supply the authoritative processed file manually at the path above, or set `SEPHORA_ANALYSIS_PATH`. No data is automatically downloaded or regenerated.
-
-For the 2026-11-23 checks, the supplied merged file was available locally at `Part A./merged_reviews.parquet`, and the six original CSVs were subsequently supplied in local `archive/`. The merged file is needed only to rerun B, not C–F. The optional text lookup was regenerated inside the ignored B rerun directory. All these datasets remain excluded from Git.
-
-## Run the available analyses
-
-From this project folder, use Python 3.14 to match the verified environment (3.14.6). Tested package versions are in `requirements-lock.txt` and `results/environment.json`. For another Python version supporting the code (3.11+), install `requirements.txt` instead of the locked versions and rerun verification; package/platform compatibility must be checked for that environment.
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements-lock.txt
-python scripts/run_analysis.py
-python scripts/verify_results.py
-python scripts/verify_part_d.py
-python scripts/check_upstream_helpers.py
-```
-
-`run_analysis.py` defaults to C, E, D and all three F scripts. E runs before D because D compares against E's saved predictions. It runs each notebook/script in a separate process, checks failures and model convergence, and confirms the input hash is unchanged. No Jupyter server is needed. Notebooks can also be opened interactively with this environment; run them from within the project folder or a Part folder.
-
-Regenerated results go to `results/part_c/`, `results/part_d/`, `results/part_e/` and `results/part_f/`. The supplied result files remain in their original Part folders. Execution logs and executed notebook copies are under `results/logs/` and `results/executed/` and are ignored by Git. Headless runs save PNG files; Matplotlib may also print a non-interactive-display warning.
-
-To run a subset, use `python scripts/run_analysis.py --parts C E` (`verify_results.py` expects C/E/F; `verify_part_d.py` checks D separately). Paths are resolved within this project rather than through Windows drives or a search of the user's home directory. To use an externally stored processed file:
-
-```bash
-export SEPHORA_ANALYSIS_PATH="/absolute/path/to/analysis_ready.parquet"
-python scripts/run_analysis.py
-```
-
-`SEPHORA_RESULTS_DIR` optionally changes the result directory. Verification compares the supplied dataset fingerprint and original results, so a deliberately different dataset requires a new, separately documented validation baseline.
-
-## Verify Part D uncertainty analysis
-
-```bash
-python scripts/run_analysis.py --parts D
-python scripts/verify_part_d.py
-```
-
-D uses the authoritative dataset and E's saved predictions. D-only runs write `results/execution_d.json`, preserving prior C/E/F execution evidence. Its original 17-file submission is archived in `preservation/part_d_original_submission.zip`; source hashes are in the adjacent manifest. Current outputs are in `results/part_d/`.
-
-All seven submitted CSVs reproduce. Technical corrections fix the ICC diagnostic, an incorrect displayed overall rate, interval clipping and plotting, plus confirmed reporting errors. Seed 5106, 2,000 product draws, percentile intervals, review weighting, paired contrasts and the four-reported-skin interaction test are unchanged. C/E/F model files and results were not changed or refitted.
-
-See [D's independent verification](results/part_d/verification.json), [the corrected notes](Part%20D.%20Statistical%20Uncertainty%20%26%20Visualization/PartD_Report_Notes.md), and [the review](docs/REVIEW.md). Pointwise intervals are not multiplicity adjusted; D and E test different interaction hypotheses. Original HTML/Word exports remain historical snapshots with original errors, not updated final submission documents.
-
-## Safely rerun and compare Part A
-
-With the six CSVs and existing reference datasets available locally:
-
-```bash
-python scripts/compare_part_a.py --raw-dir archive
-```
-
-The script executes the corrected A notebook into a new `data/part_a_reruns/<timestamp>/` directory and compares every row and column with the existing merged file. It separately verifies raw review fields, lexical IDs, duplicate removal, same-author imputation and every product join field against the CSVs. It checks raw/reference data and B/C/E/F source fingerprints; downstream models are not executed or changed.
-
-Compact reports go to `results/part_a_validation/`; existing run/report directories are rejected. Use a new `--report-dir` and optionally `--run-dir` for another check. `SEPHORA_RAW_DIR` also supports an external CSV directory for direct notebook execution.
-
-The completed comparison found zero data differences. The only file difference is harmless footer metadata; two expected post-imputation duplicates also match the reference and are handled by B. See [A's comparison evidence](results/part_a_validation/comparison.json) and [the review](docs/REVIEW.md).
-
-## Safely rerun and compare Part B
-
-With both the merged input and authoritative processed file available locally:
-
-```bash
-python scripts/compare_part_b.py --merged "Part A./merged_reviews.parquet"
-```
-
-This runs the existing B notebook in a fresh `data/part_b_reruns/<timestamp>/` directory and compares all rows and columns with the existing authoritative file. It verifies input and model-source fingerprints, row/column order, missingness, pandas dtypes, categories, exact values, and Parquet storage differences. It does not run or alter C/E/F models. Reports and B's compact outputs go to `results/part_b_validation/`; raw text, rebuilt Parquet files, logs and executed notebook copies remain excluded from Git.
-
-Existing run/report directories are rejected. To repeat the check without overwriting previous outputs, supply a new `--report-dir` (and optionally a new `--run-dir`). `SEPHORA_MERGED_PATH` can also select an externally stored merged file.
-
-The completed comparison found **zero differing values**, no changed dtypes or category metadata, and no changed row/column order. A footer-only serialization difference is documented in [the B comparison evidence](results/part_b_validation/comparison.json) and [the review](docs/REVIEW.md).
-
-## Rerun the complete available pipeline later
-
-Only do this after manually obtaining the original inputs. Keep large inputs outside GitHub, for example:
+## Repository structure
 
 ```text
-/absolute/path/sephora-data/
-  raw/
-    product_info.csv
-    reviews_0-250.csv
-    reviews_250-500.csv
-    reviews_500-750.csv
-    reviews_750-1250.csv
-    reviews_1250-end.csv
-  processed/
+part_a_data_integration/          01_data_integration.ipynb
+part_b_data_cleaning/             02_data_cleaning.ipynb
+part_c_exploratory_analysis/      03_exploratory_analysis.ipynb
+part_d_statistical_uncertainty/   04_statistical_uncertainty.ipynb + ANALYSIS_NOTES.md
+part_e_main_modeling/             05_main_modeling.ipynb
+part_f_secondary_analysis/        recommendation_analysis.py
+                                 log_price_sensitivity.py
+                                 model_comparison.py + ANALYSIS_NOTES.md
+scripts/                         run_pipeline.py, validate_results.py
+project_paths.py
+requirements.txt
+requirements-lock.txt
 ```
+
+Each part has one `outputs/` directory. Figures are in `outputs/figures/`. A/B outputs document integration and feature definitions; C contains descriptive tables, D contains cluster-bootstrap intervals, E contains adjusted model estimates/evaluation and generated `outputs/analysis_notes.md`, and F contains secondary/sensitivity results. Only final analysis code, results and analytical notes are tracked.
+
+## Data
+
+Source: [Sephora Products and Skincare Reviews on Kaggle](https://www.kaggle.com/datasets/nadyinky/sephora-products-and-skincare-reviews). Download and extract the six original CSVs manually:
+
+```text
+data/raw/
+  product_info.csv
+  reviews_0-250.csv
+  reviews_250-500.csv
+  reviews_500-750.csv
+  reviews_750-1250.csv
+  reviews_1250-end.csv
+```
+
+A produces `data/processed/merged_reviews.parquet` (~219 MB); B produces `data/processed/analysis_ready.parquet` (~19 MB, 1,093,847 × 52). **The B processed file is the authoritative input for C–F.** Place an existing copy there or set `SEPHORA_ANALYSIS_PATH=/absolute/path/analysis_ready.parquet`. A/B can generate it from the original CSVs; C–F do not need the raw CSVs or merged file.
+
+All datasets, including the processed Parquet and optional text lookup, are intentionally excluded from Git. An absent intermediate in a checkout is expected. Nothing is automatically downloaded.
+
+## Reproduce
+
+The tested environment is Python 3.14.6. Install the pinned versions to match it:
 
 ```bash
-export SEPHORA_DATA_DIR="/absolute/path/sephora-data"
-python scripts/run_analysis.py --parts A B --include-upstream
-# B writes the rebuilt file to the external processed/ directory.
-# Select it explicitly to rerun downstream analysis:
-export SEPHORA_ANALYSIS_PATH="$SEPHORA_DATA_DIR/processed/analysis_ready.parquet"
-python scripts/run_analysis.py
+python3.14 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements-lock.txt
+python scripts/run_pipeline.py
+python scripts/validate_results.py
 ```
 
-The explicit `--include-upstream` flag is required for A/B. A validates that all six files exist before loading; B explains the missing intermediate if it is unavailable. B rebuilds into `SEPHORA_DATA_DIR/processed/`, preserving the supplied authoritative file. Without the environment override, upstream data defaults to the ignored root `data/` folder. D is integrated and runs after E so its model-comparison input is available.
+The default order is **C → E → D → F**: D uses E's saved predictions. All three F scripts run. The runner refits models, regenerates final outputs, checks failures/convergence and confirms the processed input remains unchanged. The validator independently checks descriptive statistics, product-multiplicity bootstrap intervals, model-result identities, interpretation labels and product-disjoint evaluation. It uses only current data/code/results, with no external history or backup files. Logs, executed notebook copies and run metadata stay locally in ignored `.run/`.
 
-## Preservation, checks and interpretation
+To rerun a subset, use `python scripts/run_pipeline.py --parts E D`. Notebooks also run interactively from within this checkout. `SEPHORA_RESULTS_DIR` optionally selects an alternate output root with the same part-folder layout.
 
-Before corrections, the original notebooks, F scripts and all supplied manageable results were copied byte-for-byte into `preservation/original_notebooks_and_results.zip`. `preservation/manifest.json` records SHA-256 hashes and file sizes, including the processed Parquet file, which was fingerprinted in place rather than duplicated. Corrected source notebooks have cleared outputs; executed copies are separate so old outputs cannot be mistaken for new runs.
+To build A/B first, use a **new** data directory and the extracted CSV location:
 
-See [the code review](docs/REVIEW.md), [machine-readable downstream checks](results/verification.json), [C/E/F result comparisons](results/result_comparison.csv), [A's column comparisons](results/part_a_validation/column_comparison.csv), and [B's column comparisons](results/part_b_validation/column_comparison.csv). A/B/C/D/E/F verification includes execution. Separate A and B reruns reproduce the raw-to-merged and merged-to-processed stages without replacing the existing reference files.
+```bash
+SEPHORA_RAW_DIR=/absolute/path/to/csvs \
+SEPHORA_DATA_DIR=/absolute/path/to/new-data \
+python scripts/run_pipeline.py --parts A B --include-upstream
 
-Models use product-clustered standard errors and product-disjoint evaluation with seed 5106. Their associations are observational. The main model's held-out ROC-AUC is about 0.524 and its joint price × skin interaction p-value is about 0.5005. Global preprocessing, author attribute filling across products, and 2023 product snapshots applied to older reviews limit prospective interpretations; see the review report.
+SEPHORA_ANALYSIS_PATH=/absolute/path/to/new-data/processed/analysis_ready.parquet \
+python scripts/run_pipeline.py
+SEPHORA_ANALYSIS_PATH=/absolute/path/to/new-data/processed/analysis_ready.parquet \
+python scripts/validate_results.py
+```
 
-## Repository file policy
+A/B are opt-in and refuse to overwrite existing Parquet outputs. `SEPHORA_MERGED_PATH` can select an existing intermediate for B. On another Python version (code requires 3.11+), install `requirements.txt` and validate package/platform compatibility.
 
-Keep source code, notebooks, documentation, CSV summaries, compact PNGs and the preservation archives. `.gitignore` excludes **all Parquet datasets**, raw-data directories, text lookup files, caches, fitted-model binaries, logs, executed notebook copies and local environments. Do not add datasets inside archives; existing tracked files require explicit removal from Git's index because ignore rules do not untrack them.
+## Interpretation
+
+- **C/D are unadjusted and descriptive.** D uses 2,000 product-cluster bootstrap replicates, seed 5106, review-weighted ratios and paired percentile intervals. Intervals are pointwise, without multiplicity correction; `boot_p` values are percentile-tail approximations.
+- **E/F are adjusted logistic models**, with product-clustered standard errors. Categorical reference groups are **Budget price, Normal skin and Moisturizers**. In interaction models, main price odds ratios are **conditional on Normal skin**; main skin-type odds ratios are conditional on Budget price. E's reduced model has no price × skin interaction. In F's log-price model, the main price slope is for Normal skin; a doubling multiplies log price by `ln(2)`. Skin coefficients in that model refer to `log_price = 0` ($1).
+- **D and E test different interaction hypotheses.** D compares unadjusted Luxury-minus-Budget risk differences across four reported skin types, excluding Not reported. E jointly tests 12 adjusted log-odds interactions across all price bands and all five skin groups. Their p-values are not interchangeable.
+- E's predictions average over a common covariate mix and are not raw cell rates. Interval overlap does not establish equivalence. F's recommendation outcome uses 926,031 observed-response rows; its five-star refit uses those same rows for comparison.
+- Model evaluation uses 80/20 product-disjoint splits, seed 5106, with thresholds 0.5 and the training outcome rate. Globally prepared category/highlight choices and author attribute fills limit prospective interpretation. Product snapshots may not describe historical review-time characteristics; dependence across products sharing authors/brands remains possible. Findings are observational, not causal.
+
+See D's and F's analytical notes and E's generated notes for report/slide-ready results and limitations. The notebooks retain their supplied AI-use acknowledgements where applicable.

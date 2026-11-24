@@ -1,5 +1,0 @@
-price_segment,n_reviews,n_products,review_share_pct,mean_rating,std_rating,five_star_pct,diff_fsr_vs_overall_pp
-Budget (<$25),268444,481,24.54,4.26,1.202,63.88,0.02
-Mid ($25-49),429186,896,39.24,4.301,1.154,64.27,0.41
-Premium ($50-99),331301,725,30.29,4.334,1.1,63.89,0.03
-Luxury ($100+),64916,249,5.93,4.271,1.137,60.94,-2.92

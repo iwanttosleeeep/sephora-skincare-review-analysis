@@ -3,19 +3,16 @@
 __pycache__/
 *.py[cod]
 .ipynb_checkpoints/
-.pytest_cache/
 .cache/
-
-# All raw, intermediate and processed datasets stay outside GitHub.
+.run/
+.env*
 /data/
-/archive/
+*.parquet
+*.csv.gz
 product_info.csv
 reviews_*.csv
-**/data/raw/
-*.parquet
 *.pkl
 *.joblib
-**/executed/
-**/logs/
 *.log
-/results/part_d_original_rerun/part_d/figures/
+*.zip
+*.tar.gz

@@ -1,5 +1,0 @@
-Model,Outcome / sample,chi2 (df),p
-Main model (Part E),"Five-star, full sample",11.33 (12),0.5005
-"Main model, refit","Five-star, rec sample",16.93 (12),0.1524
-Secondary outcome model,"Recommendation, rec sample",16.71 (12),0.161
-Sensitivity model (log price),"Five-star, full sample",8.39 (4),0.0784
