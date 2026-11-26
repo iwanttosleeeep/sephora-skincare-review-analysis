@@ -53,6 +53,35 @@ def main():
     check("product predictors constant within product", df.groupby("product_id")[["price_usd", "category"]+[c for c in predictors if c.startswith("hl_") or c=="highlights_missing"]].nunique(dropna=False).le(1).all().all())
     distribution=pd.read_csv(output_dir("C")/"rating_distribution.csv").set_index("rating").loc[[1,2,3,4,5]]
     check("C rating distribution",np.array_equal(distribution.n_reviews,df.rating.value_counts().reindex([1,2,3,4,5])))
+    reporting = df.skin_type_cat.eq("Not reported")
+    yearly = pd.read_csv(output_dir("C") / "skin_type_not_reported_by_year.csv").set_index("review_year").sort_index()
+    year_counts = pd.crosstab(df.review_year, reporting).reindex(columns=[False, True], fill_value=0)
+    check("C skin reporting: yearly counts", np.array_equal(yearly.n_reviews, year_counts.sum(axis=1))
+          and np.array_equal(yearly.n_not_reported, year_counts[True])
+          and np.array_equal(yearly.n_reported, year_counts[False]))
+    close("C skin reporting: yearly shares", yearly.not_reported_share_pct, 100*year_counts[True]/year_counts.sum(axis=1))
+    recent = yearly.loc[yearly.index >= 2018]
+    check("C skin reporting: expectation flags retain exceptions", np.array_equal(
+        recent.matches_expected.astype(bool), recent.not_reported_share_pct.lt(2)))
+    check("C skin reporting: 2023 under-2-percent expectation fails", not bool(yearly.loc[2023, "matches_expected"]))
+    activity = pd.read_csv(output_dir("C") / "skin_type_author_activity.csv").set_index("skin_type_reporting").loc[["Not reported", "Reported"]]
+    author_totals = df.author_id.value_counts(sort=False)
+    for group, mask in [("Not reported", reporting), ("Reported", ~reporting)]:
+        ids = df.loc[mask, "author_id"]
+        row = activity.loc[group]
+        close(f"C {group}: full-dataset author medians",
+              [row.median_author_reviews_review_weighted, row.median_author_reviews_author_weighted],
+              [ids.map(author_totals).median(), ids.drop_duplicates().map(author_totals).median()])
+        check(f"C {group}: activity denominators", row.n_reviews == len(ids) and row.n_authors == ids.nunique())
+    periods = pd.read_csv(output_dir("C") / "skin_type_five_star_by_period.csv").set_index(["period", "skin_type_reporting"])
+    for period, year_mask in [("Before 2017", df.review_year.lt(2017)), ("2017 onward", df.review_year.ge(2017))]:
+        for group, status_mask in [("Not reported", reporting), ("Reported", ~reporting)]:
+            sample = df.loc[year_mask & status_mask]
+            row = periods.loc[(period, group)]
+            check(f"C {period}/{group}: reporting counts", row.n_reviews == len(sample)
+                  and row.n_authors == sample.author_id.nunique() and row.n_five_star == sample.five_star.sum())
+            close(f"C {period}/{group}: five-star rate", [row.five_star_rate_pct], [100*sample.five_star.mean()])
+    check("C reporting period expectations at one decimal", periods.matches_expected_one_decimal.all())
     check("authoritative dataset shape/outcome", len(df) == 1_093_847 and (df.five_star == df.rating.eq(5)).all())
     products, product_code = np.unique(df.product_id.to_numpy(dtype=str), return_inverse=True)
     P, B = len(products), 2000

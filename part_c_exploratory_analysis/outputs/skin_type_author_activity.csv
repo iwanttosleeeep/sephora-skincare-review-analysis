@@ -1,0 +1,3 @@
+skin_type_reporting,n_reviews,n_authors,median_author_reviews_review_weighted,median_author_reviews_author_weighted,expected_review_weighted_median,matches_expected_review_weighted
+Not reported,77627,58353,1.0,1.0,1,True
+Reported,1016220,446491,3.0,1.0,3,True

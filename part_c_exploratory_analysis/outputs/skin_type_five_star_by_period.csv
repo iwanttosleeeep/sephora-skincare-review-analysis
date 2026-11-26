@@ -1,0 +1,5 @@
+period,skin_type_reporting,n_reviews,n_authors,n_five_star,five_star_rate_pct,expected_five_star_rate_pct,matches_expected_one_decimal,review_year_rule
+Before 2017,Not reported,50008,40439,33760,67.50919852823549,67.5,True,<2017
+Before 2017,Reported,88565,58437,58894,66.49805227798792,66.5,True,<2017
+2017 onward,Not reported,27619,18987,17599,63.72062710452949,63.7,True,>=2017
+2017 onward,Reported,927655,402847,588278,63.41560170537538,63.4,True,>=2017

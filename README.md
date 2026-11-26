@@ -79,3 +79,9 @@ A/B are opt-in and refuse to overwrite existing Parquet outputs. `SEPHORA_MERGED
 - Model evaluation uses 80/20 product-disjoint splits, seed 5106, with thresholds 0.5 and the training outcome rate. Globally prepared category/highlight choices and author attribute fills limit prospective interpretation. Product snapshots may not describe historical review-time characteristics; dependence across products sharing authors/brands remains possible. Findings are observational, not causal.
 
 See D's and F's analytical notes and E's generated notes for report/slide-ready results and limitations. The notebooks retain their supplied AI-use acknowledgements where applicable.
+
+### Skin-type reporting check
+
+Part C includes a reproducible check of the processed `Not reported` skin-type group. Run the C notebook or `python part_c_exploratory_analysis/skin_type_reporting.py`. Three CSVs in C's `outputs/` give annual shares, author activity and five-star rates before 2017 versus from 2017, with explicit expectation-comparison columns.
+
+Author review totals are counted over the **full dataset before any grouping**. The review-weighted medians are 1 (Not reported) versus 3 (Reported); counting each distinct author once within a reporting group gives 1 versus 1. Authors can appear in both groups. Annual shares are 29.34–51.35% in 2012–2017 and below 2% in 2018–2022, but **2023 is 5.95%** (all 2018-onward reviews pooled: 1.26%). The four period rates round to 67.5%/66.5% before 2017 and 63.7%/63.4% from 2017. These are descriptive patterns, not adjusted effects or a statement about missingness in the original raw CSVs.
