@@ -231,6 +231,34 @@ def main():
     check("distinct interaction hypotheses recorded", int(wald.wald_df)==12 and inter.skin_types=='Normal, Combination, Dry, Oily')
     e_or=pd.read_csv(output_dir("E")/"odds_ratios_main_model.csv")
     check("E includes Not reported interactions", e_or.model_term.str.contains('Not reported',regex=False).sum()==4)
+    vif = pd.read_csv(output_dir("E") / "vif_main_effects.csv")
+    reduced_terms = pd.read_csv(output_dir("E") / "odds_ratios_reduced_model.csv").model_term.tolist()
+    check("E VIF: exact reduced-model terms, no intercept/interactions",
+          vif.model_term.tolist() == reduced_terms and vif.model_term.is_unique
+          and not vif.model_term.eq("Intercept").any() and not vif.model_term.str.contains(":").any())
+    check("E VIF: full analysis sample", vif.n_reviews.eq(len(df)).all())
+    # Independent dummy construction and inverse centred correlation matrix.
+    # diag(inv(corr(X))) equals auxiliary-OLS VIFs with an intercept.
+    vif_columns, vif_names = [], []
+    for column, levels, variable, reference in [
+            ("price_segment", PRICE, "price", "Budget"),
+            ("skin_type_cat", SKIN, "skin", "Normal"),
+            ("category", CATEGORY, "cat", "Moisturizers")]:
+        for level in sorted(levels[1:]):
+            label = level.split(" (")[0] if variable == "price" else level
+            vif_names.append(f"C({variable}, Treatment('{reference}'))[T.{label}]")
+            vif_columns.append(df[column].eq(level).to_numpy())
+    for column in ["hl_fragrance_free", "hl_clean", "hl_vegan", "hl_cruelty_free",
+                   "hl_hydrating", "hl_dullness", "hl_dryness", "hl_anti_aging", "highlights_missing"]:
+        vif_names.append(column)
+        vif_columns.append(df[column].to_numpy())
+    vif_design = np.column_stack(vif_columns).astype(float)
+    independent_vif = np.diag(np.linalg.inv(np.corrcoef(vif_design, rowvar=False)))
+    check("E VIF: Budget/Normal/Moisturizers reference coding", vif.model_term.tolist() == vif_names)
+    close("E VIF: independent inverse-correlation calculation", vif.vif, independent_vif, atol=1e-8)
+    check("E VIF: finite, at least one, below 2.5", np.isfinite(vif.vif).all()
+          and vif.vif.ge(1-1e-10).all() and vif.vif.lt(2.5).all())
+    del vif_columns, vif_design
     e_auc=pd.read_csv(output_dir("E")/"evaluation_metrics.csv").query("model == 'Main model'")['ROC-AUC'].iloc[0]
     f_auc=pd.read_csv(output_dir("F")/"table4_held_out_evaluation.csv").iloc[0]['ROC-AUC']
     close("E/F main five-star evaluation reference",[round(e_auc,3)],[f_auc])

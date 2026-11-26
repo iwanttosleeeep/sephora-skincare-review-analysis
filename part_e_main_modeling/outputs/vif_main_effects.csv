@@ -1,0 +1,25 @@
+model_term,vif,n_reviews
+"C(price, Treatment('Budget'))[T.Luxury]",1.4533945344602717,1093847
+"C(price, Treatment('Budget'))[T.Mid]",2.18909365210032,1093847
+"C(price, Treatment('Budget'))[T.Premium]",2.3530421473207257,1093847
+"C(skin, Treatment('Normal'))[T.Combination]",2.496549131940861,1093847
+"C(skin, Treatment('Normal'))[T.Dry]",1.9917886628921893,1093847
+"C(skin, Treatment('Normal'))[T.Not reported]",1.4884447607375406,1093847
+"C(skin, Treatment('Normal'))[T.Oily]",1.7045763222552668,1093847
+"C(cat, Treatment('Moisturizers'))[T.Cleansers]",1.5761650983713533,1093847
+"C(cat, Treatment('Moisturizers'))[T.Eye Care]",1.227418231044985,1093847
+"C(cat, Treatment('Moisturizers'))[T.Lip Care]",1.5003252302684462,1093847
+"C(cat, Treatment('Moisturizers'))[T.Masks]",1.1979604893597586,1093847
+"C(cat, Treatment('Moisturizers'))[T.Minis & Sets]",1.557514588988308,1093847
+"C(cat, Treatment('Moisturizers'))[T.Sunscreen]",1.1550746701715064,1093847
+"C(cat, Treatment('Moisturizers'))[T.Tools, Wellness & Self-Tan]",1.1025262957834152,1093847
+"C(cat, Treatment('Moisturizers'))[T.Treatments]",1.5966485373191417,1093847
+hl_fragrance_free,1.110654131037806,1093847
+hl_clean,1.141979199320364,1093847
+hl_vegan,1.1692207525167044,1093847
+hl_cruelty_free,1.1302511298189688,1093847
+hl_hydrating,1.2261007122372904,1093847
+hl_dullness,1.2848230153381377,1093847
+hl_dryness,1.2369840001009496,1093847
+hl_anti_aging,1.4039965588931378,1093847
+highlights_missing,1.4934413978037748,1093847
